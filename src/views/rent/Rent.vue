@@ -3,7 +3,7 @@
     <Categoryfilter />
     <div class="rent-nfts">
       <div class="rent-nfts-item" v-for="nft of nfts" :key="nft.id">
-        <NFT nft="nft" />
+        <NFT :nft="nft" />
       </div>
     </div>
   </div>

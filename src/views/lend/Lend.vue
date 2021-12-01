@@ -3,7 +3,7 @@
     <Categoryfilter />
     <div class="lend-nfts">
       <div class="lend-nfts-item" v-for="nft of nfts" :key="nft.id">
-        <NFT nft="nft" />
+        <NFT :nft="nft" />
         <el-button type="primary" @click="dialogVisible = true">Lend</el-button>
       </div>
     </div>
@@ -73,6 +73,9 @@ export default {
         { id: 9 },
       ],
     };
+  },
+  methods: {
+    handleClose() {},
   },
 };
 </script>

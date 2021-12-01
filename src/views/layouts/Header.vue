@@ -33,8 +33,11 @@ export default {
     };
   },
   computed: {
-    rentOrLend() {
-      return this.$route.name === "rent" ? "Lend" : "Rent";
+    rentOrLend: {
+      get() {
+        return this.$route.name === "rent" ? "Lend" : "Rent";
+      },
+      set() {},
     },
   },
   methods: {
