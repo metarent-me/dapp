@@ -75,7 +75,9 @@ export default {
     };
   },
   methods: {
-    handleClose() {},
+    handleClose() {
+      this.dialogVisible = false;
+    },
   },
 };
 </script>
