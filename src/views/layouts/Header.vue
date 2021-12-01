@@ -7,7 +7,7 @@
       </div>
     </div>
     <div class="header-right">
-      <div class="header-page-name" @click="gotoPage">Rent</div>
+      <div class="header-page-name" @click="gotoPage">{{ rentOrLend }}</div>
       <div class="header-connect">
         <el-button type="primary" round>Connect wallet</el-button>
       </div>
@@ -17,13 +17,20 @@
 
 <script>
 export default {
+  computed: {
+    rentOrLend() {
+      return this.$route.name === "rent" ? "Lend" : "Rent";
+    },
+  },
   methods: {
     gotoPage() {
       const current = this.$route.name;
       if (current == "rent") {
         this.$router.push("lend");
+        this.rentOrLend = "Lend";
       } else {
         this.$router.push("rent");
+        this.rentOrLend = "Rent";
       }
     },
   },

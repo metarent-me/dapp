@@ -4,6 +4,7 @@
     <div class="lend-nfts">
       <div class="lend-nfts-item" v-for="nft of nfts" :key="nft.id">
         <NFT nft="nft" />
+        <el-button type="primary">Lend</el-button>
       </div>
     </div>
   </div>
@@ -58,10 +59,16 @@ export default {
 
 .lend-nfts-item {
   width: 200px;
-  height: 250px;
+  height: 300px;
   border: 1px solid @body-background-color;
   &:hover {
     border: 1px solid tomato;
+  }
+
+  .el-button--primary {
+    display: block;
+    width: 100%;
+    margin: 0 auto;
   }
 }
 </style>
