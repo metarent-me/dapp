@@ -1,14 +1,29 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Main from "../views/Main.vue";
+import Rent from "../views/rent/Rent.vue";
+import Lend from "../views/lend/Lend.vue";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: "/",
-    name: "Home",
+    name: "Main",
     component: Main,
+    redirect: "rent",
+    children: [
+      {
+        path: "rent",
+        name: "rent",
+        component: Rent,
+      },
+      {
+        path: "lend",
+        name: "lend",
+        component: Lend,
+      },
+    ],
   },
   {
     path: "/about",

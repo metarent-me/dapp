@@ -4,7 +4,9 @@
       <Header />
     </div>
     <div class="main-container">
-      <Rent class="main-rent" />
+      <div class="main-container-inside">
+        <router-view />
+      </div>
     </div>
     <div class="footer-container">
       <Footer />
@@ -15,11 +17,11 @@
 <script>
 import Header from "./layouts/Header.vue";
 import Footer from "./layouts/Footer.vue";
-import Rent from "./rent/Rent.vue";
+// import Rent from "./rent/Rent.vue";
 
 export default {
   name: "Main",
-  components: { Footer, Header, Rent },
+  components: { Footer, Header },
 };
 </script>
 
@@ -40,7 +42,7 @@ export default {
   background-color: @body-background-color;
 }
 
-.main-rent {
+.main-container-inside {
   max-width: 1200px;
   min-width: 980px;
   margin: auto;
