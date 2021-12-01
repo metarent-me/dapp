@@ -3,7 +3,7 @@
     <div class="nft-img-container">
       <img
         class="nft-img"
-        src="https://storage.opensea.io/static/promocards/unfold-promocard.jpeg"
+        :src="imgs[Math.floor(Math.random() * imgs.length)]"
         alt=""
       />
     </div>
@@ -13,10 +13,17 @@
 </template>
 
 <script>
+import data from "../assets/testdata.json";
+
 export default {
   name: "NFT",
   props: {
     nft: Object,
+  },
+  data() {
+    return {
+      imgs: data["imgs"],
+    };
   },
 };
 </script>
@@ -29,7 +36,9 @@ export default {
 }
 
 .nft-img {
+  display: inlin-block;
   width: 100%;
+  height: 100%;
 }
 
 .nft-collection {
