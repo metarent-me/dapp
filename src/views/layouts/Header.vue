@@ -21,14 +21,12 @@
 @media (min-width: 601px) {
   .header-warpper {
     justify-content: space-between;
-    background-color: green;
   }
 }
 
 @media (max-width: 600px) {
   .header-warpper {
     flex-direction: column;
-    background-color: orange;
   }
 }
 

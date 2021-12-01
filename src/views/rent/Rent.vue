@@ -1,6 +1,6 @@
 <template>
   <div class="rent-wrapper">
-    <h1>This is an Rent page</h1>
+    <div>This is an Rent page</div>
   </div>
 </template>
 
@@ -10,5 +10,6 @@
 .rent-wrapper {
   background-color: @body-background-color;
   min-height: 800px;
+  padding-top: 10px;
 }
 </style>
