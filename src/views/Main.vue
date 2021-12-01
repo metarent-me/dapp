@@ -40,7 +40,8 @@ export default {
   background-color: @body-background-color;
 }
 .main-rent {
-  max-width: 800px;
+  max-width: @main-max-width;
+  min-width: @main-max-width;
   margin: auto;
 }
 </style>
