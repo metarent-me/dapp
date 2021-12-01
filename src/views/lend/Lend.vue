@@ -114,6 +114,12 @@ export default {
     display: block;
     width: 100%;
     margin: 0 auto;
+    font-weight: bold;
+    background-color: @button-background-color;
+    border-color: @button-background-color;
+    &:hover {
+      background-color: @button-hover-color;
+    }
   }
 }
 
