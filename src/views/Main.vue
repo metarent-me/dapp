@@ -1,8 +1,14 @@
 <template>
   <div class="main-wrapper">
-    <Header />
-    <Rent />
-    <Footer />
+    <div class="header-container">
+      <Header />
+    </div>
+    <div class="main-container">
+      <Rent class="main-rent" />
+    </div>
+    <div class="footer-container">
+      <Footer />
+    </div>
   </div>
 </template>
 
@@ -18,11 +24,23 @@ export default {
 </script>
 
 <style lang="less">
+@import "../assets/global.less";
+
 .main-wrapper {
   display: flex;
   flex-flow: column wrap;
+  justify-content: center;
 }
+
 .main-wrapper > * {
   flex: 1 100%;
+}
+
+.main-container {
+  background-color: @body-background-color;
+}
+.main-rent {
+  max-width: 800px;
+  margin: auto;
 }
 </style>
