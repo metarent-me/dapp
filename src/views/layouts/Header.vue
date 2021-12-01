@@ -8,6 +8,16 @@
     </div>
     <div class="header-right">
       <div class="header-page-name" @click="gotoPage">{{ rentOrLend }}</div>
+
+      <el-input
+        placeholder="Collections, item, contract"
+        v-model="searchText"
+        class="header-search"
+      >
+        <i class="el-icon-search el-input__icon" slot="suffix" @click="search">
+        </i>
+      </el-input>
+
       <div class="header-connect">
         <el-button type="primary" round>Connect wallet</el-button>
       </div>
@@ -17,6 +27,11 @@
 
 <script>
 export default {
+  data() {
+    return {
+      searchText: null,
+    };
+  },
   computed: {
     rentOrLend() {
       return this.$route.name === "rent" ? "Lend" : "Rent";
@@ -33,10 +48,15 @@ export default {
         this.rentOrLend = "Rent";
       }
     },
+    search() {
+      console.log("search");
+    },
   },
 };
 </script>
 <style lang="less">
+@import "../../assets/global.less";
+
 .header-warpper {
   display: flex;
   flex-flow: row wrap;
@@ -99,5 +119,16 @@ export default {
 }
 .header-connect {
   align-self: center;
+}
+
+.header-search {
+  width: 600px;
+
+  .el-input__inner {
+    color: white;
+    border-radius: 25px;
+    background-color: @body-background-color;
+    border: 1px solid @body-background-color;
+  }
 }
 </style>
