@@ -14,8 +14,8 @@
 .header-warpper {
   display: flex;
   flex-flow: row wrap;
-  height: 40px;
-  margin-top: 5px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 @media (min-width: 601px) {
@@ -30,11 +30,20 @@
   }
 }
 
+.header-left {
+  margin-left: 10px;
+  align-self: center;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
 .header-title {
+  // height: 100px;
   font-size: 30px;
   font-weight: 500;
   align-self: center;
-  margin-left: 10px;
+  text-align: center;
 }
 
 .header-right {

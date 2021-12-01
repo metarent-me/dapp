@@ -1,12 +1,8 @@
 <template>
   <div class="main-wrapper">
-    <div class="header">
-      <Header />
-    </div>
-    <div class="main">
-      <Rent />
-    </div>
-    <div class="footer"><Footer /></div>
+    <Header />
+    <Rent />
+    <Footer />
   </div>
 </template>
 
@@ -28,13 +24,5 @@ export default {
 }
 .main-wrapper > * {
   flex: 1 100%;
-}
-
-.header {
-  height: 60px;
-}
-
-.main {
-  height: 100%;
 }
 </style>
