@@ -33,4 +33,8 @@ export default {
 .header {
   height: 60px;
 }
+
+.main {
+  height: 100%;
+}
 </style>
