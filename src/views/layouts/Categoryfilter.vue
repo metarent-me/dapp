@@ -32,8 +32,8 @@ export default {
 @import "../../assets/global.less";
 
 .category-filter {
-  width: @main-filter-width;
-  max-width: @main-filter-width;
+  width: 500px;
+  max-width: 500px; //@main-filter-width;
   display: inline-block;
   margin-top: 30px;
 }
@@ -44,6 +44,11 @@ export default {
 
 .category-filter-input {
   margin-top: 10px;
+  width: 100px;
+
+  &.el-input {
+    width: 220px;
+  }
 
   .el-input__inner {
     background-color: rgb(48, 51, 57);

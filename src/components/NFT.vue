@@ -7,7 +7,8 @@
         alt=""
       />
     </div>
-    <div class="nft-name">NFT</div>
+    <div class="nft-collection">The Sandbox</div>
+    <div class="nft-name">NFT #1234</div>
   </div>
 </template>
 
@@ -29,5 +30,14 @@ export default {
 
 .nft-img {
   width: 100%;
+}
+
+.nft-collection {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.nft-name {
+  font-size: 14px;
 }
 </style>

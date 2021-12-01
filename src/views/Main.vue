@@ -39,9 +39,10 @@ export default {
 .main-container {
   background-color: @body-background-color;
 }
+
 .main-rent {
-  max-width: @main-max-width;
-  min-width: @main-max-width;
+  max-width: 1200px;
+  min-width: 980px;
   margin: auto;
 }
 </style>
