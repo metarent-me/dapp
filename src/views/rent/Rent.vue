@@ -53,18 +53,16 @@ export default {
   justify-content: space-around;
   padding: 0;
   margin: 0;
+  margin-top: 20px;
 }
 
 .rent-nfts-item {
   background: tomato;
-  padding: 5px;
   width: 200px;
-  height: 150px;
-  margin-top: 10px;
-  line-height: 150px;
-  color: white;
-  font-weight: bold;
-  font-size: 3em;
-  text-align: center;
+  height: 200px;
+  border: 1px solid @body-background-color;
+  &:hover {
+    border: 1px solid tomato;
+  }
 }
 </style>
