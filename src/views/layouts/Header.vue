@@ -1,7 +1,10 @@
 <template>
   <div class="header-warpper">
     <div class="header-left">
-      <div class="header-title">Metarent</div>
+      <div class="header-title-slogan">
+        <div class="header-title">MetaRent</div>
+        <div class="header-slogan">Rent the metaverse</div>
+      </div>
     </div>
     <div class="header-right">
       <div class="header-page-name">Rent</div>
@@ -16,8 +19,8 @@
 .header-warpper {
   display: flex;
   flex-flow: row wrap;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 @media (min-width: 601px) {
@@ -34,18 +37,26 @@
 
 .header-left {
   margin-left: 20px;
-  align-self: center;
   display: flex;
+  flex-flow: row wrap;
+  align-self: center;
   align-items: center;
   gap: 20px;
 }
 
+.header-title-slogan {
+  display: flex;
+  flex-flow: column wrap;
+  align-items: flex-start;
+}
+
 .header-title {
-  // height: 100px;
   font-size: 30px;
   font-weight: 500;
-  align-self: center;
-  text-align: center;
+}
+
+.header-slogan {
+  font-size: 18px;
 }
 
 .header-right {
