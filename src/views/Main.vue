@@ -12,7 +12,7 @@ import Footer from "./layouts/Footer.vue";
 import Rent from "./rent/Rent.vue";
 
 export default {
-  name: "Home",
+  name: "Main",
   components: { Footer, Header, Rent },
 };
 </script>

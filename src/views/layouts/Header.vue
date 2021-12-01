@@ -15,7 +15,7 @@
   </div>
 </template>
 
-<style lang="less" scoped>
+<style lang="less">
 .header-warpper {
   display: flex;
   flex-flow: row wrap;
