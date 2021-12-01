@@ -7,7 +7,7 @@
       </div>
     </div>
     <div class="header-right">
-      <div class="header-page-name">Rent</div>
+      <div class="header-page-name" @click="gotoPage">Rent</div>
       <div class="header-connect">
         <el-button type="primary" round>Connect wallet</el-button>
       </div>
@@ -15,6 +15,20 @@
   </div>
 </template>
 
+<script>
+export default {
+  methods: {
+    gotoPage() {
+      const current = this.$route.name;
+      if (current == "rent") {
+        this.$router.push("lend");
+      } else {
+        this.$router.push("rent");
+      }
+    },
+  },
+};
+</script>
 <style lang="less">
 .header-warpper {
   display: flex;
@@ -71,6 +85,10 @@
   font-size: 20px;
   font-weight: 400;
   align-self: center;
+
+  &:hover {
+    cursor: pointer;
+  }
 }
 .header-connect {
   align-self: center;
