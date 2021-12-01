@@ -1,11 +1,13 @@
 <template>
   <div class="header-warpper">
     <div class="header-left">
-      <div class="header-title">Meta Rent</div>
+      <div class="header-title">Metarent</div>
     </div>
     <div class="header-right">
       <div class="header-page-name">Rent</div>
-      <div class="header-connect">Connect to your wallet</div>
+      <div class="header-connect">
+        <el-button type="primary" round>Connect wallet</el-button>
+      </div>
     </div>
   </div>
 </template>
@@ -31,7 +33,7 @@
 }
 
 .header-left {
-  margin-left: 10px;
+  margin-left: 20px;
   align-self: center;
   display: flex;
   align-items: center;
@@ -47,7 +49,7 @@
 }
 
 .header-right {
-  margin-right: 10px;
+  margin-right: 20px;
   align-self: center;
   display: flex;
   align-content: flex-end;
