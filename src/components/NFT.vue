@@ -17,6 +17,12 @@ export default {
   data() {
     return {};
   },
+  mounted() {
+    setInterval(() => {
+      this.$forceUpdate();
+      console.log("xx");
+    }, 2000);
+  },
 };
 </script>
 

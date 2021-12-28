@@ -10,8 +10,15 @@
 </template>
 
 <script>
+import Vue from "vue";
+import Web3 from "web3";
 import Categoryfilter from "../layouts/Categoryfilter.vue";
 import NFT from "../../components/NFT.vue";
+import {
+  OPENSEA_SINGLE_ASSET,
+  METARENT_CONTRACT,
+  METARENT_ABI,
+} from "../../contracts/Metarent";
 
 export default {
   name: "Rent",
@@ -21,13 +28,72 @@ export default {
       nfts: null,
     };
   },
-  watch: {
-    "$store.state.account": (newVal) => {
-      if (newVal) {
-        console.log("account", newVal);
+  methods: {
+    getLending() {
+      if (window.ethereum) {
+        window.web3 = new Web3(window.ethereum);
+        window.ethereum.enable();
+        this.web3 = window.web3;
+      }
+      const Metarent = new this.web3.eth.Contract(
+        METARENT_ABI.abi,
+        METARENT_CONTRACT
+      );
+      Metarent.methods
+        .getLending()
+        .call({
+          from: this.$store.state.account,
+        })
+        .then((result) => {
+          let nfts = [];
+          for (let i = 0; i < result.length; i++) {
+            nfts.push({
+              lender: result[i]["lender"],
+              nftToken: result[i]["nftToken"],
+              nftTokenId: result[i]["nftTokenId"],
+              maxRentDuration: result[i]["maxRentDuration"],
+              dailyRentPrice: result[i]["dailyRentPrice"],
+              nftPrice: result[i]["nftPrice"],
+              rentable: result[i]["rentable"],
+            });
+          }
+          this.nfts = nfts;
+          this.fetchOpenseaAsset();
+        });
+    },
+    fetchOpenseaAsset() {
+      let nfts = [];
+      for (let i = 0; i < this.nfts.length; i++) {
+        setTimeout(() => {
+          let nft = this.nfts[i];
+          let token = nft.nftToken;
+          let tokenId = nft.nftTokenId;
+          fetch(OPENSEA_SINGLE_ASSET + `${token}/${tokenId}`)
+            .then((res) => res.json())
+            .then((data) => {
+              nft.image_url = data.image_url;
+              nft.name = data.name;
+              nft.collection = { name: data.collection.name };
+              nfts.push(nft);
+
+              if (i >= this.nfts.length) {
+                this.nfts = nfts;
+                Vue.$set(this, nfts, nfts);
+              }
+            });
+        }, 1500 * i);
       }
     },
   },
+  watch: {
+    "$store.state.account": function (newVal) {
+      if (newVal) {
+        console.log("account", newVal);
+        this.getLending();
+      }
+    },
+  },
+  mounted() {},
 };
 </script>
 

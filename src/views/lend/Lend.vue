@@ -54,12 +54,13 @@
 
 <script>
 import Web3 from "web3";
-
 import Categoryfilter from "../layouts/Categoryfilter.vue";
 import NFT from "../../components/NFT.vue";
-import { METARENT_CONTRACT, OPENSEA_PREFIX } from "../../contracts/Metarent";
-
-const MetarentABI = require("../../contracts/Metarent.json");
+import {
+  METARENT_CONTRACT,
+  OPENSEA_PREFIX,
+  METARENT_ABI,
+} from "../../contracts/Metarent";
 
 export default {
   name: "Lend",
@@ -115,7 +116,7 @@ export default {
       }
       const nft = this.lendInfo.nft;
       const Metarent = new this.web3.eth.Contract(
-        MetarentABI.abi,
+        METARENT_ABI.abi,
         METARENT_CONTRACT
       );
       console.log("xxx", nft.asset_contract.address);
