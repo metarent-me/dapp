@@ -1,7 +1,7 @@
 <template>
   <div class="nft-wrapper">
     <div class="nft-img-container">
-      <img class="nft-img" :src="nft.image_url" alt="" />
+      <img class="nft-img" :src="nft.image_url || defaultImg" alt="" />
     </div>
     <div class="nft-collection">{{ (nft.collection || {}).name || "NFT" }}</div>
     <div class="nft-name">{{ nft.name }}</div>
@@ -15,7 +15,9 @@ export default {
     nft: Object,
   },
   data() {
-    return {};
+    return {
+      defaultImg: "https://testnets.opensea.io/static/images/placeholder.png",
+    };
   },
   mounted() {
     setInterval(() => {

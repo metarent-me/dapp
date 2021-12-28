@@ -10,7 +10,6 @@
 </template>
 
 <script>
-import Vue from "vue";
 import Web3 from "web3";
 import Categoryfilter from "../layouts/Categoryfilter.vue";
 import NFT from "../../components/NFT.vue";
@@ -75,10 +74,8 @@ export default {
               nft.name = data.name;
               nft.collection = { name: data.collection.name };
               nfts.push(nft);
-
               if (i >= this.nfts.length) {
                 this.nfts = nfts;
-                Vue.$set(this, nfts, nfts);
               }
             });
         }, 1500 * i);
@@ -93,7 +90,9 @@ export default {
       }
     },
   },
-  mounted() {},
+  mounted() {
+    this.getLending();
+  },
 };
 </script>
 
