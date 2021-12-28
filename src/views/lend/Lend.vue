@@ -125,16 +125,11 @@ export default {
       Metarent.methods
         .setLending(
           nft.asset_contract.address,
-          // this.web3.eth.abi.encodeParameter(
-          // "address",
-          // nft.asset_contract.address
-          // ),
           this.web3.eth.abi.encodeParameter("uint256", nft.token_id),
           this.web3.eth.abi.encodeParameter("uint256", "3"),
           this.web3.eth.abi.encodeParameter("uint256", "4"),
           this.web3.eth.abi.encodeParameter("uint256", "2")
         )
-        // .call({ from: metarentAddress });
         .send({
           from: this.$store.state.account,
           to: metarentAddress,
