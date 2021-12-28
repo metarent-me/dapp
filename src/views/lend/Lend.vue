@@ -78,12 +78,14 @@ export default {
       this.dialogVisible = false;
     },
     fetchNFTs(account) {
-      fetch(OPENSEA_PREFIX + account)
-        .then((res) => res.json())
-        .then((data) => {
-          this.nfts = data["assets"];
-          console.log(this.nfts);
-        });
+      if (account) {
+        fetch(OPENSEA_PREFIX + account)
+          .then((res) => res.json())
+          .then((data) => {
+            this.nfts = data["assets"];
+            console.log(this.nfts);
+          });
+      }
     },
   },
   watch: {
@@ -92,6 +94,9 @@ export default {
         this.fetchNFTs(newVal);
       }
     },
+  },
+  mounted() {
+    this.fetchNFTs(this.$store.state.account);
   },
 };
 </script>
