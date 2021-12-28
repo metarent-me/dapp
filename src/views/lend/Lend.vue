@@ -8,7 +8,8 @@
           <el-button type="primary" @click="lendNFT(nft)">Lend</el-button>
         </div>
       </template>
-      <template v-else>NO NFTs of this accounts</template>
+      <template v-else-if="nfts !== null">Loading NFTs</template>
+      <template v-else>No NFTs</template>
     </div>
 
     <el-dialog
