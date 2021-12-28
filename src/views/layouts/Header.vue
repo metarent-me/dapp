@@ -7,7 +7,8 @@
       </div>
     </div>
     <div class="header-right">
-      <div class="header-page-name" @click="gotoPage">{{ rentOrLend }}</div>
+      <div class="header-page-name" @click="gotoRent">Rent</div>
+      <div class="header-page-name" @click="gotoLend">Lend</div>
 
       <el-input
         placeholder="Collections, item, contract"
@@ -19,7 +20,9 @@
       </el-input>
 
       <div class="header-connect">
-        <el-button type="primary" round>Connect wallet</el-button>
+        <el-button type="primary" @click="connectWallet" round
+          >Connect wallet</el-button
+        >
       </div>
     </div>
   </div>
@@ -41,18 +44,27 @@ export default {
     },
   },
   methods: {
-    gotoPage() {
+    gotoRent() {
+      const current = this.$route.name;
+      if (current == "lend") {
+        this.$router.push("rent");
+      }
+    },
+    gotoLend() {
       const current = this.$route.name;
       if (current == "rent") {
         this.$router.push("lend");
-        this.rentOrLend = "Lend";
-      } else {
-        this.$router.push("rent");
-        this.rentOrLend = "Rent";
       }
     },
     search() {
       console.log("search");
+    },
+    connectWallet() {
+      if (typeof window.ethereum !== "undefined") {
+        console.log("MetaMask is installed!");
+      } else {
+        console.log("Metamask is NOT installed");
+      }
     },
   },
 };
