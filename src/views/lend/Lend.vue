@@ -52,18 +52,23 @@
 </template>
 
 <script>
+import Web3 from "web3";
+
 import Categoryfilter from "../layouts/Categoryfilter.vue";
 import NFT from "../../components/NFT.vue";
+import { metarentAddress } from "../../contracts/Metarent";
 
+const MetarentABI = require("../../contracts/Metarent.json");
 const OPENSEA_PREFIX =
-  "https://api.opensea.io/api/v1/assets?limit=50&offset=0&owner=";
-// "https://rinkeby-api.opensea.io/api/v1/assets?limit=50&offset=0&owner=";
+  // "https://api.opensea.io/api/v1/assets?limit=50&offset=0&owner=";
+  "https://rinkeby-api.opensea.io/api/v1/assets?limit=50&offset=0&owner=";
 
 export default {
   name: "Lend",
   components: { Categoryfilter, NFT },
   data() {
     return {
+      web3: null,
       dialogVisible: false,
       lendInfo: {
         nft: null,
@@ -101,9 +106,52 @@ export default {
         maxDuration: null,
       };
       console.log("NFT", data);
+      this.invokeContract();
       this.dialogVisible = false;
     },
-    validateForm() {},
+    invokeContract() {
+      if (window.ethereum) {
+        window.web3 = new Web3(window.ethereum);
+        window.ethereum.enable();
+        this.web3 = window.web3;
+      }
+      // const account = this.$store.state.account;
+      const nft = this.lendInfo.nft;
+      const Metarent = new this.web3.eth.Contract(
+        MetarentABI.abi,
+        metarentAddress
+      );
+      Metarent.methods
+        .setLending(
+          this.web3.eth.abi.encodeParameter(
+            "uint256",
+            nft.asset_contract.address
+          ),
+          this.web3.eth.abi.encodeParameter("uint256", nft.token_id),
+          this.web3.eth.abi.encodeParameter("uint256", "3"),
+          this.web3.eth.abi.encodeParameter("uint256", "4"),
+          this.web3.eth.abi.encodeParameter("uint256", "2")
+        )
+        // .call({ from: metarentAddress });
+        .send({
+          from: this.$store.state.account,
+          to: metarentAddress,
+          value: 100000000000000000,
+          gasPrice: "2000000000",
+        })
+        .then(function (result) {
+          console.log(result);
+        });
+      /*
+        function setLending(
+        uint256 nftToken,
+        uint256 nftTokenId,
+        uint8 maxRentDuration,
+        bytes4 dailyRentPrice,
+        bytes4 nftPrice
+        )
+      */
+    },
   },
   watch: {
     "$store.state.account": function (newVal) {
