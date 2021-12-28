@@ -9,17 +9,13 @@
 </template>
 
 <script>
-import data from "../assets/testdata.json";
-
 export default {
   name: "NFT",
   props: {
     nft: Object,
   },
   data() {
-    return {
-      imgs: data["imgs"],
-    };
+    return {};
   },
 };
 </script>
