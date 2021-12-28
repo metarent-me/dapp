@@ -57,12 +57,9 @@ import Web3 from "web3";
 
 import Categoryfilter from "../layouts/Categoryfilter.vue";
 import NFT from "../../components/NFT.vue";
-import { metarentAddress } from "../../contracts/Metarent";
+import { METARENT_CONTRACT, OPENSEA_PREFIX } from "../../contracts/Metarent";
 
 const MetarentABI = require("../../contracts/Metarent.json");
-const OPENSEA_PREFIX =
-  // "https://api.opensea.io/api/v1/assets?limit=50&offset=0&owner=";
-  "https://rinkeby-api.opensea.io/api/v1/assets?limit=50&offset=0&owner=";
 
 export default {
   name: "Lend",
@@ -119,7 +116,7 @@ export default {
       const nft = this.lendInfo.nft;
       const Metarent = new this.web3.eth.Contract(
         MetarentABI.abi,
-        metarentAddress
+        METARENT_CONTRACT
       );
       console.log("xxx", nft.asset_contract.address);
       Metarent.methods
@@ -132,7 +129,7 @@ export default {
         )
         .send({
           from: this.$store.state.account,
-          to: metarentAddress,
+          to: METARENT_CONTRACT,
           value: 100000000000000000,
           gasPrice: "2000000000",
         })
