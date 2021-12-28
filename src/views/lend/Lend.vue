@@ -5,9 +5,7 @@
       <template v-if="nfts">
         <div class="lend-nfts-item" v-for="nft of nfts" :key="nft.id">
           <NFT :nft="nft" />
-          <el-button type="primary" @click="dialogVisible = true"
-            >Lend</el-button
-          >
+          <el-button type="primary" @click="lendNFT(nft)">Lend</el-button>
         </div>
       </template>
       <template v-else>NO NFTs of this accounts</template>
@@ -15,27 +13,31 @@
 
     <el-dialog
       class="lend-dialog"
-      title="Complete checkout"
+      title="Lend your NFT"
       :visible.sync="dialogVisible"
-      width="60%"
+      width="40%"
       :before-close="handleClose"
       center
     >
       <div class="lend-dialog-desc">
-        <div class="lend-desc-collection">The Sandbox</div>
-        <div class="lend-desc-name">The Sandbox #321</div>
+        <div class="lend-desc-collection">
+          {{ ((lendInfo.nft || {}).collection || {}).name || "NFT" }}
+        </div>
+        <div class="lend-desc-name">
+          {{ (lendInfo.nft || {}).name || "No Name" }}
+        </div>
       </div>
 
       <div class="lend-dialog-form">
         <el-form label-position="right" label-width="200px" :model="lendInfo">
-          <el-form-item label="Collateral">
-            <el-input v-model="lendInfo.collateral"></el-input>
+          <el-form-item label="Collateral(ETH)">
+            <el-input v-model="lendInfo.collateral" type="number"></el-input>
           </el-form-item>
-          <el-form-item label="Daily price">
-            <el-input v-model="lendInfo.dailyPrice"></el-input>
+          <el-form-item label="Daily Price(ETH)">
+            <el-input v-model="lendInfo.dailyPrice" type="number"></el-input>
           </el-form-item>
-          <el-form-item label="Max duration">
-            <el-input v-model="lendInfo.maxDuration"></el-input>
+          <el-form-item label="Max Duration(Dfays)">
+            <el-input v-model="lendInfo.maxDuration" type="number"></el-input>
           </el-form-item>
           <el-form-item label="Fee">2.5%</el-form-item>
         </el-form>
@@ -43,9 +45,7 @@
 
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="dialogVisible = false"
-          >Approve</el-button
-        >
+        <el-button type="primary" @click="approveLend">Approve</el-button>
       </span>
     </el-dialog>
   </div>
@@ -66,6 +66,7 @@ export default {
     return {
       dialogVisible: false,
       lendInfo: {
+        nft: null,
         collateral: null,
         dailyPrice: null,
         maxDuration: null,
@@ -83,10 +84,26 @@ export default {
           .then((res) => res.json())
           .then((data) => {
             this.nfts = data["assets"];
-            console.log(this.nfts);
           });
       }
     },
+    lendNFT(nft) {
+      this.dialogVisible = true;
+      this.lendInfo.nft = nft;
+    },
+    approveLend() {
+      let nft = this.lendInfo.nft;
+      let data = {
+        tokenId: nft.token_id,
+        token: nft.asset_contract.address,
+        collateral: null,
+        dailyPrice: null,
+        maxDuration: null,
+      };
+      console.log("NFT", data);
+      this.dialogVisible = false;
+    },
+    validateForm() {},
   },
   watch: {
     "$store.state.account": function (newVal) {
