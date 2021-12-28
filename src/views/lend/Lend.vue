@@ -2,10 +2,15 @@
   <div class="lend-wrapper">
     <Categoryfilter />
     <div class="lend-nfts">
-      <div class="lend-nfts-item" v-for="nft of nfts" :key="nft.id">
-        <NFT :nft="nft" />
-        <el-button type="primary" @click="dialogVisible = true">Lend</el-button>
-      </div>
+      <template v-if="nfts">
+        <div class="lend-nfts-item" v-for="nft of nfts" :key="nft.id">
+          <NFT :nft="nft" />
+          <el-button type="primary" @click="dialogVisible = true"
+            >Lend</el-button
+          >
+        </div>
+      </template>
+      <template v-else>NO NFTs of this accounts</template>
     </div>
 
     <el-dialog
@@ -50,6 +55,10 @@
 import Categoryfilter from "../layouts/Categoryfilter.vue";
 import NFT from "../../components/NFT.vue";
 
+const OPENSEA_PREFIX =
+  "https://api.opensea.io/api/v1/assets?limit=50&offset=0&owner=";
+// "https://rinkeby-api.opensea.io/api/v1/assets?limit=50&offset=0&owner=";
+
 export default {
   name: "Lend",
   components: { Categoryfilter, NFT },
@@ -61,22 +70,27 @@ export default {
         dailyPrice: null,
         maxDuration: null,
       },
-      nfts: [
-        { id: 1 },
-        { id: 2 },
-        { id: 3 },
-        { id: 4 },
-        { id: 5 },
-        { id: 6 },
-        { id: 7 },
-        { id: 8 },
-        { id: 9 },
-      ],
+      nfts: null,
     };
   },
   methods: {
     handleClose() {
       this.dialogVisible = false;
+    },
+    fetchNFTs(account) {
+      fetch(OPENSEA_PREFIX + account)
+        .then((res) => res.json())
+        .then((data) => {
+          this.nfts = data["assets"];
+          console.log(this.nfts);
+        });
+    },
+  },
+  watch: {
+    "$store.state.account": function (newVal) {
+      if (newVal) {
+        this.fetchNFTs(newVal);
+      }
     },
   },
 };

@@ -115,6 +115,7 @@ export default {
     },
     onComplete(data) {
       this.account = data.metaMaskAddress;
+      this.$store.commit("setAccount", this.account);
       this.netName = `Ethereum ${data.type}`;
     },
     currentAccount(str) {
@@ -133,7 +134,6 @@ export default {
     checkAccounts() {
       if (this.web3 === null) return;
       this.web3.eth.getAccounts((err, accounts) => {
-        console.log();
         if (err != null)
           return this.Log(this.MetamaskMsg.NETWORK_ERROR, "NETWORK_ERROR");
         if (accounts.length === 0) {
@@ -171,7 +171,6 @@ export default {
       }
     },
     Log(msg, type = "") {
-      console.log(this.MetaMaskAddress);
       const letType = type;
       if (letType === this.type) return;
       const message = this.userMessage === "null" ? msg : this.userMessage;

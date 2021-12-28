@@ -31,6 +31,13 @@ export default {
       ],
     };
   },
+  watch: {
+    "$store.state.account": (newVal) => {
+      if (newVal) {
+        console.log("account", newVal);
+      }
+    },
+  },
 };
 </script>
 

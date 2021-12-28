@@ -1,14 +1,10 @@
 <template>
   <div class="nft-wrapper">
     <div class="nft-img-container">
-      <img
-        class="nft-img"
-        :src="imgs[Math.floor(Math.random() * imgs.length)]"
-        alt=""
-      />
+      <img class="nft-img" :src="nft.image_url" alt="" />
     </div>
-    <div class="nft-collection">The Sandbox</div>
-    <div class="nft-name">NFT #1234</div>
+    <div class="nft-collection">{{ (nft.collection || {}).name || "NFT" }}</div>
+    <div class="nft-name">{{ nft.name }}</div>
   </div>
 </template>
 
