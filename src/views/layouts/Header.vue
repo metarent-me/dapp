@@ -11,7 +11,7 @@
       <div class="header-page-name" @click="gotoLend">Lend</div>
 
       <el-input
-        placeholder="Collections, item, contract"
+        placeholder="Collections, item or contract"
         v-model="searchText"
         class="header-search"
       >
@@ -20,9 +20,10 @@
       </el-input>
 
       <div class="header-connect">
-        <el-button type="primary" @click="connectWallet" round>{{
-          currentAccount(account) || "Connect wallet"
-        }}</el-button>
+        <el-button type="primary" @click="connectWallet" round
+          >{{ currentAccount(account) || "Connect wallet" }}<br />
+          {{ netName }}
+        </el-button>
       </div>
     </div>
   </div>
@@ -45,6 +46,7 @@ export default {
       web3: null,
       MetaMaskId: "1", // main net netID
       netID: "1", // user metamask id
+      netName: null,
       MetaMaskAddress: "", // user Address
       Web3Interval: null,
       AccountInterval: null,
@@ -113,6 +115,7 @@ export default {
     },
     onComplete(data) {
       this.account = data.metaMaskAddress;
+      this.netName = `Ethereum ${data.type}`;
     },
     currentAccount(str) {
       if (str) {
@@ -151,17 +154,17 @@ export default {
         this.web3.eth.net.getId().then((netId) => {
           this.netID = netId;
           if (this.MetaMaskAddress !== "" && netId === 1)
-            return this.Log(this.MetamaskMsg.METAMASK_TEST_NET, "MAINNET");
+            return this.Log(this.MetamaskMsg.METAMASK_TEST_NET, "Mainnet");
           if (this.MetaMaskAddress !== "" && netId === 3)
-            return this.Log(this.MetamaskMsg.METAMASK_TEST_NET, "ROPSTEN");
+            return this.Log(this.MetamaskMsg.METAMASK_TEST_NET, "Ropsten");
           if (this.MetaMaskAddress !== "" && netId === 42)
-            return this.Log(this.MetamaskMsg.METAMASK_TEST_NET, "KOVAN");
+            return this.Log(this.MetamaskMsg.METAMASK_TEST_NET, "Kovan");
           if (this.MetaMaskAddress !== "" && netId === 4)
-            return this.Log(this.MetamaskMsg.METAMASK_TEST_NET, "RINKEBY");
+            return this.Log(this.MetamaskMsg.METAMASK_TEST_NET, "Rinkeby");
           if (this.MetaMaskAddress !== "" && netId === 5)
-            return this.Log(this.MetamaskMsg.METAMASK_TEST_NET, "GOERLI");
+            return this.Log(this.MetamaskMsg.METAMASK_TEST_NET, "Goerli");
           if (this.MetaMaskAddress !== "")
-            this.Log(this.MetamaskMsg.METAMASK_MAIN_NET, "MAINNET");
+            this.Log(this.MetamaskMsg.METAMASK_MAIN_NET, "Mainnet");
         });
       } catch (err) {
         this.Log(this.MetamaskMsg.NETWORK_ERROR, "NETWORK_ERROR");
