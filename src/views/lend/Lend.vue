@@ -116,18 +116,19 @@ export default {
         window.ethereum.enable();
         this.web3 = window.web3;
       }
-      // const account = this.$store.state.account;
       const nft = this.lendInfo.nft;
       const Metarent = new this.web3.eth.Contract(
         MetarentABI.abi,
         metarentAddress
       );
+      console.log("xxx", nft.asset_contract.address);
       Metarent.methods
         .setLending(
-          this.web3.eth.abi.encodeParameter(
-            "uint256",
-            nft.asset_contract.address
-          ),
+          nft.asset_contract.address,
+          // this.web3.eth.abi.encodeParameter(
+          // "address",
+          // nft.asset_contract.address
+          // ),
           this.web3.eth.abi.encodeParameter("uint256", nft.token_id),
           this.web3.eth.abi.encodeParameter("uint256", "3"),
           this.web3.eth.abi.encodeParameter("uint256", "4"),
@@ -143,15 +144,6 @@ export default {
         .then(function (result) {
           console.log(result);
         });
-      /*
-        function setLending(
-        uint256 nftToken,
-        uint256 nftTokenId,
-        uint8 maxRentDuration,
-        bytes4 dailyRentPrice,
-        bytes4 nftPrice
-        )
-      */
     },
   },
   watch: {
