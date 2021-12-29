@@ -2,10 +2,13 @@
   <div class="rent-wrapper">
     <Categoryfilter />
     <div class="rent-nfts">
-      <div class="rent-nfts-item" v-for="nft of nfts" :key="nft.id">
-        <template @click="gotoDetail(nft)">
-          <NFT :nft="nft" />
-        </template>
+      <div
+        class="rent-nfts-item"
+        v-for="nft of nfts"
+        :key="nft.id"
+        @click="gotoDetail(nft)"
+      >
+        <NFT :nft="nft" />
       </div>
     </div>
   </div>
@@ -81,9 +84,10 @@ export default {
       this.nfts = nfts;
     },
     gotoDetail(nft) {
+      this.$store.commit("setNFTDetail", nft);
       this.$router.push({
         name: "rentdetail",
-        params: { token: nft.token, tokenId: nft.tokenId },
+        params: { token: nft.asset_contract.address, tokenId: nft.token_id },
       });
     },
   },

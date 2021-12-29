@@ -10,14 +10,14 @@
       <div class="header-page-name" @click="gotoRent">Rent</div>
       <div class="header-page-name" @click="gotoLend">Lend</div>
 
-      <el-input
+      <!-- <el-input
         placeholder="Collections, item or contract"
         v-model="searchText"
         class="header-search"
       >
         <i class="el-icon-search el-input__icon" slot="suffix" @click="search">
         </i>
-      </el-input>
+      </el-input> -->
 
       <div class="header-connect">
         <el-button type="primary" @click="connectWallet" round
@@ -77,13 +77,13 @@ export default {
   methods: {
     gotoRent() {
       const current = this.$route.name;
-      if (current == "lend") {
-        this.$router.push("rent");
+      if (current !== "rent") {
+        this.$router.push("/rent");
       }
     },
     gotoLend() {
       const current = this.$route.name;
-      if (current == "rent") {
+      if (current !== "lend") {
         this.$router.push("lend");
       }
     },
