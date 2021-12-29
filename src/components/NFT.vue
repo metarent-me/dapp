@@ -22,7 +22,6 @@ export default {
   mounted() {
     setInterval(() => {
       this.$forceUpdate();
-      console.log("xx");
     }, 2000);
   },
 };

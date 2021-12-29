@@ -3,7 +3,9 @@
     <Categoryfilter />
     <div class="rent-nfts">
       <div class="rent-nfts-item" v-for="nft of nfts" :key="nft.id">
-        <NFT :nft="nft" />
+        <template @click="gotoDetail(nft)">
+          <NFT :nft="nft" />
+        </template>
       </div>
     </div>
   </div>
@@ -14,7 +16,7 @@ import Web3 from "web3";
 import Categoryfilter from "../layouts/Categoryfilter.vue";
 import NFT from "../../components/NFT.vue";
 import {
-  OPENSEA_SINGLE_ASSET,
+  OPENSEA_MULTI_ASSET,
   METARENT_CONTRACT,
   METARENT_ABI,
 } from "../../contracts/Metarent";
@@ -62,24 +64,27 @@ export default {
     },
     fetchOpenseaAsset() {
       let nfts = [];
+      let url = OPENSEA_MULTI_ASSET + "?";
       for (let i = 0; i < this.nfts.length; i++) {
-        setTimeout(() => {
-          let nft = this.nfts[i];
-          let token = nft.nftToken;
-          let tokenId = nft.nftTokenId;
-          fetch(OPENSEA_SINGLE_ASSET + `${token}/${tokenId}`)
-            .then((res) => res.json())
-            .then((data) => {
-              nft.image_url = data.image_url;
-              nft.name = data.name;
-              nft.collection = { name: data.collection.name };
-              nfts.push(nft);
-              if (i >= this.nfts.length) {
-                this.nfts = nfts;
-              }
-            });
-        }, 1500 * i);
+        let nft = this.nfts[i];
+        let token = nft.nftToken;
+        let tokenId = nft.nftTokenId;
+        url = url + `asset_contract_addresses=${token}&token_ids=${tokenId}&`;
       }
+      fetch(url)
+        .then((res) => res.json())
+        .then((data) => {
+          for (let i = 0; i < data.assets.length; i++) {
+            nfts.push(data.assets[i]);
+          }
+        });
+      this.nfts = nfts;
+    },
+    gotoDetail(nft) {
+      this.$router.push({
+        name: "rentdetail",
+        params: { token: nft.token, tokenId: nft.tokenId },
+      });
     },
   },
   watch: {

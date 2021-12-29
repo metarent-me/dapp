@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import Main from "../views/Main.vue";
 import Rent from "../views/rent/Rent.vue";
 import Lend from "../views/lend/Lend.vue";
+import RentDetail from "../views/rent/RentDetail.vue";
 
 Vue.use(VueRouter);
 
@@ -22,6 +23,11 @@ const routes = [
         path: "lend",
         name: "lend",
         component: Lend,
+      },
+      {
+        path: "rentdetail/:token/:tokenId",
+        name: "rentdetail",
+        component: RentDetail,
       },
     ],
   },
