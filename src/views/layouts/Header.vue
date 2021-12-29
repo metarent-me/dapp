@@ -3,7 +3,9 @@
     <div class="header-left">
       <div class="header-title-slogan" @click="goHome">
         <div class="header-title">MetaRent</div>
-        <div class="header-slogan">Rent the metaverse</div>
+        <div class="header-slogan">
+          RENT the metaverse (Only support Rinkeby testnet now)
+        </div>
       </div>
     </div>
     <div class="header-right">
@@ -262,6 +264,7 @@ export default {
   font-size: 20px;
   font-weight: 400;
   align-self: center;
+  margin-right: 30px;
 
   &:hover {
     cursor: pointer;
