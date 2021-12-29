@@ -5,31 +5,53 @@
         <img
           class="rent-detail-img"
           :src="nft.image_url || defaultImg"
-          alt=""
+          alt="NFT"
         />
+        <div class="rent-detail-contract">Contract: {{ contractAddress }}</div>
       </div>
-      <div class="rent-detail-contract">Contract: {{ contractAddress }}</div>
     </div>
     <div class="rent-detail-info">
-      <div class="rent-detail-collection">
-        {{ (nft.collection || {}).name }}
-      </div>
-      <div class="rent-detail-name">{{ nft.name }}</div>
-      <div class="lender-info">
-        <div class="lender-info-address">Address: {{}}</div>
-        <div class="lender-info-collateral">Collateral: {{}}</div>
-        <div class="lender-info-max-duration">Max Duration: {{}}</div>
-        <div class="lender-info-daily-price">Daily Price: {{}}</div>
-        <div class="lender-info-rent-button">
-          <el-button type="primary">Rent</el-button>
+      <div class="lend-dialog-form">
+        <div class="lender-info">
+          <div class="rent-detail-collection">
+            {{ (nft.collection || {}).name || "..." }}
+          </div>
+          <div class="rent-detail-name">{{ nft.name || "..." }}</div>
+
+          <el-form label-position="right" label-width="150px">
+            <el-form-item label="Lender" size="medium">{{
+              nft.lender
+            }}</el-form-item>
+            <el-form-item label="Collateral(ETH)" size="medium">
+              {{ nft.nftPrice }}</el-form-item
+            >
+            <el-form-item label="Daily Price(ETH)"
+              >{{ nft.dailyRentPrice }}
+            </el-form-item>
+            <el-form-item label="Max Duration(Days)">
+              {{ nft.maxRentDuration }}</el-form-item
+            >
+            <el-form-item label="Fee">2.5%</el-form-item>
+            <el-form-item label="">
+              <el-button type="primary">Rent</el-button></el-form-item
+            >
+          </el-form>
         </div>
+
+        <div class="lender-info-rent-button"></div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { OPENSEA_SINGLE_ASSET } from "../../contracts/Metarent";
+import Web3 from "web3";
+import {
+  OPENSEA_SINGLE_ASSET,
+  METARENT_CONTRACT,
+  METARENT_ABI,
+} from "../../contracts/Metarent";
+
 export default {
   name: "RentDetail",
   computed: {
@@ -47,6 +69,42 @@ export default {
       defaultImg: "https://testnets.opensea.io/static/images/placeholder.png",
     };
   },
+  methods: {
+    getLending() {
+      if (window.ethereum) {
+        window.web3 = new Web3(window.ethereum);
+        window.ethereum.enable();
+        this.web3 = window.web3;
+      }
+      const Metarent = new this.web3.eth.Contract(
+        METARENT_ABI.abi,
+        METARENT_CONTRACT
+      );
+      Metarent.methods
+        .getLending()
+        .call({
+          from: this.$store.state.account,
+        })
+        .then((results) => {
+          for (let i = 0; i < results.length; i++) {
+            let result = results[i];
+            if (
+              result.nftToken.toLowerCase() ==
+                this.nft.asset_contract.address.toLowerCase() &&
+              result.nftTokenId.toLowerCase() == this.nft.token_id.toLowerCase()
+            ) {
+              this.nft.lender = result["lender"];
+              this.nft.nftToken = result["nftToken"];
+              this.nft.nftTokenId = result["nftTokenId"];
+              this.nft.maxRentDuration = result["maxRentDuration"];
+              this.nft.dailyRentPrice = result["dailyRentPrice"];
+              this.nft.nftPrice = result["nftPrice"];
+              this.nft.rentable = result["rentable"];
+            }
+          }
+        });
+    },
+  },
   mounted() {
     const token = this.$route.params.token;
     const tokenId = this.$route.params.tokenId;
@@ -55,6 +113,7 @@ export default {
       .then((res) => res.json())
       .then((data) => {
         this.nft = data;
+        this.getLending();
       });
   },
 };
@@ -63,10 +122,12 @@ export default {
 <style lang="less">
 @import "../../assets/global.less";
 .rent-detail-wrapper {
-  height: 800px;
+  height: 12000px;
   display: flex;
 }
 .rent-detail-img-container {
+  margin-top: 20px;
+  margin-left: 100px;
   height: 400px;
   width: 300px;
   border: 1px solid @body-background-color;
@@ -82,6 +143,7 @@ export default {
 }
 .rent-detail-info {
   margin-left: 50px;
+  width: 800px;
 }
 .rent-detail-collection {
   font-size: 30px;
@@ -91,10 +153,15 @@ export default {
   font-size: 20px;
 }
 .lender-info {
-  margin-top: 100px;
+  margin-top: 20px;
   font-size: 20px;
 }
 .lender-info-rent-button {
   margin-top: 30px;
+}
+
+.el-form-item__label {
+  font-size: 10px;
+  color: white !important;
 }
 </style>

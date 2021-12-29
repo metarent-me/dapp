@@ -1,7 +1,7 @@
 <template>
   <div class="header-warpper">
     <div class="header-left">
-      <div class="header-title-slogan">
+      <div class="header-title-slogan" @click="goHome">
         <div class="header-title">MetaRent</div>
         <div class="header-slogan">Rent the metaverse</div>
       </div>
@@ -192,6 +192,9 @@ export default {
       // this.AccountInterval = setInterval(() => this.checkAccounts(), 1000);
       // this.NetworkInterval = setInterval(() => this.checkNetWork(), 1000);
     },
+    goHome() {
+      this.$router.push("/");
+    },
   },
   mounted() {
     this.connectWallet();
@@ -233,6 +236,9 @@ export default {
   display: flex;
   flex-flow: column wrap;
   align-items: flex-start;
+  :hover {
+    cursor: pointer;
+  }
 }
 
 .header-title {
