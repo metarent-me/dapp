@@ -5,7 +5,9 @@
       <template v-if="nfts">
         <div class="lend-nfts-item" v-for="nft of nfts" :key="nft.id">
           <NFT :nft="nft" />
-          <el-button type="primary" @click="lendNFT(nft)">Lend</el-button>
+          <el-button type="primary" @click="lendNFT(nft)">{{
+            lendStatus(nft)
+          }}</el-button>
         </div>
       </template>
       <template v-else-if="nfts !== null">Loading NFTs</template>
@@ -67,6 +69,7 @@ export default {
   components: { Categoryfilter, NFT },
   data() {
     return {
+      contract: null,
       web3: null,
       dialogVisible: false,
       lendInfo: {
@@ -76,9 +79,16 @@ export default {
         maxDuration: null,
       },
       nfts: null,
+      contractLendings: null,
     };
   },
   methods: {
+    lendStatus(nft) {
+      if (nft.rentable == false) {
+        return "Alread Lended";
+      }
+      return "Lend";
+    },
     handleClose() {
       this.dialogVisible = false;
     },
@@ -88,6 +98,7 @@ export default {
           .then((res) => res.json())
           .then((data) => {
             this.nfts = data["assets"];
+            this.fetchContractLendings();
           });
       }
     },
@@ -134,8 +145,67 @@ export default {
           value: 100000000000000000,
           gasPrice: "2000000000",
         })
-        .then(function (result) {
+        .then((result) => {
           console.log(result);
+        });
+    },
+    initContract() {
+      if (window.ethereum) {
+        window.web3 = new Web3(window.ethereum);
+        window.ethereum.enable();
+        this.web3 = window.web3;
+      }
+      this.contract = new this.web3.eth.Contract(
+        METARENT_ABI.abi,
+        METARENT_CONTRACT
+      );
+    },
+    fetchContractLendings() {
+      this.contract.methods
+        .getLending()
+        .call({
+          from: this.$store.state.account,
+          to: METARENT_CONTRACT,
+        })
+        .then((result) => {
+          console.log("fetchContractLendings", result);
+          let nfts = [];
+          for (let i = 0; i < result.length; i++) {
+            let lend = {
+              lender: result[i]["lender"],
+              nftToken: result[i]["nftToken"],
+              nftTokenId: result[i]["nftTokenId"],
+              maxRentDuration: result[i]["maxRentDuration"],
+              dailyRentPrice: result[i]["dailyRentPrice"],
+              nftPrice: result[i]["nftPrice"],
+              rentable: result[i]["rentable"],
+            };
+            nfts.push(lend);
+            console.log(lend.nftToken, lend.nftTokenId);
+
+            for (let j = 0; j < this.nfts.length; j++) {
+              let nft = this.nfts[j];
+              console.log(
+                nft.token_id.toLowerCase(),
+                nft.asset_contract.address.toLowerCase()
+              );
+              if (
+                nft.token_id.toLowerCase() == lend.nftTokenId.toLowerCase() &&
+                nft.asset_contract.address.toLowerCase() ==
+                  lend.nftToken.toLowerCase()
+              ) {
+                console.log("xxx,", nft);
+                this.nfts[j].lender = lend.lender;
+                this.nfts[j].nftToken = lend.nftToken;
+                this.nfts[j].nftTokenId = lend.nftTokenId;
+                this.nfts[j].maxRentDuration = lend.maxRentDuration;
+                this.nfts[j].dailyRentPrice = lend.dailyRentPrice;
+                this.nfts[j].nftPrice = lend.nftPrice;
+                this.nfts[j].rentable = lend.rentable;
+              }
+            }
+          }
+          this.contractLendings = nfts;
         });
     },
   },
@@ -147,6 +217,7 @@ export default {
     },
   },
   mounted() {
+    this.initContract();
     this.fetchNFTs(this.$store.state.account);
   },
 };
