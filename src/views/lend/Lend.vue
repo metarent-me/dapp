@@ -6,7 +6,7 @@
         <div class="lend-nfts-item" v-for="nft of nfts" :key="nft.id">
           <NFT :nft="nft" />
           <el-button type="primary" @click="lendNFT(nft)">{{
-            lendStatus(nft)
+            nft.rentable === true ? "Already Lended" : "Lend"
           }}</el-button>
         </div>
       </template>
@@ -85,7 +85,9 @@ export default {
   methods: {
     lendStatus(nft) {
       if (nft.rentable == false) {
-        return "Alread Lended";
+        return "Rented";
+      } else if (nft.rentable == true) {
+        return "Already Lented";
       }
       return "Lend";
     },
@@ -103,8 +105,12 @@ export default {
       }
     },
     lendNFT(nft) {
-      this.dialogVisible = true;
-      this.lendInfo.nft = nft;
+      if (nft.rentable) {
+        alert("This NFT had been already lended");
+      } else {
+        this.dialogVisible = true;
+        this.lendInfo.nft = nft;
+      }
     },
     approveLend() {
       let nft = this.lendInfo.nft;
@@ -194,7 +200,6 @@ export default {
                 nft.asset_contract.address.toLowerCase() ==
                   lend.nftToken.toLowerCase()
               ) {
-                console.log("xxx,", nft);
                 this.nfts[j].lender = lend.lender;
                 this.nfts[j].nftToken = lend.nftToken;
                 this.nfts[j].nftTokenId = lend.nftTokenId;
@@ -202,6 +207,7 @@ export default {
                 this.nfts[j].dailyRentPrice = lend.dailyRentPrice;
                 this.nfts[j].nftPrice = lend.nftPrice;
                 this.nfts[j].rentable = lend.rentable;
+                this.$forceUpdate();
               }
             }
           }
