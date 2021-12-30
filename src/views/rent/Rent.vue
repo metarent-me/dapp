@@ -121,7 +121,6 @@ export default {
   display: flex;
   flex-flow: row wrap;
   gap: 20px;
-  // justify-content: flex-start;
   justify-content: center;
   padding: 0;
   margin: 0;
@@ -132,7 +131,6 @@ export default {
   width: 200px;
   height: 250px;
   border: 1px solid @body-background-color;
-  // margin-bottom: 30px;
   &:hover {
     border: 1px solid tomato;
   }
