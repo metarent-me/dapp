@@ -12,7 +12,6 @@ const OPENSEA_MULTI_ASSET = "https://rinkeby-api.opensea.io/api/v1/assets/";
 if (window.ethereum) {
   // TODO: Refactor
   // https://docs.metamask.io/guide/provider-migration.html#replacing-window-web3
-
   window.web3 = new Web3(window.ethereum);
   window.ethereum.enable();
 }

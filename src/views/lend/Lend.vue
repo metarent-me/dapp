@@ -197,9 +197,6 @@ export default {
           maxDuration,
           Web3.utils.toWei(dailyRentPrice),
           Web3.utils.toWei(collateral)
-
-          // this.web3.eth.abi.encodeParameter("uint256", dailyRentPrice),
-          // this.web3.eth.abi.encodeParameter("uint256", collateral)
         )
         .send({
           from: this.$store.state.account,

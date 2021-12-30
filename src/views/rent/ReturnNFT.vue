@@ -22,6 +22,7 @@ import {
   OPENSEA_SINGLE_ASSET,
   ERC721_ABI,
   METARENT_CONTRACT,
+  Metarent,
 } from "../../contracts/Metarent";
 
 export default {
@@ -47,16 +48,15 @@ export default {
     };
   },
   methods: {
-    async returnNFT() {
+    async NFTApprove(token, tokenId) {
       this.buttonLoading = true;
       this.approved = false;
-      console.log(this.token, this.tokenId);
-      const NFT = new window.web3.eth.Contract(ERC721_ABI.abi, this.token);
+
+      const NFT = new window.web3.eth.Contract(ERC721_ABI.abi, token);
       return await NFT.methods
-        .approve(METARENT_CONTRACT, this.tokenId)
+        .approve(METARENT_CONTRACT, tokenId)
         .send({
           from: this.$store.state.account,
-          value: 0,
         })
         .then((result) => {
           console.log("result", result);
@@ -74,6 +74,41 @@ export default {
           });
           return false;
         });
+    },
+    async returnNFT() {
+      // NFT Approve
+      this.buttonLoading = true;
+      let approveSuccess = await this.NFTApprove(this.token, this.tokenId);
+      if (!approveSuccess) {
+        this.buttonLoading = false;
+        return;
+      }
+
+      // Do returnNFT
+      await Metarent.methods
+        .returnRent(this.token, this.tokenId)
+        .send({
+          from: this.$store.state.account,
+          to: METARENT_CONTRACT,
+        })
+        .then((result) => {
+          console.log("REturn rent result", result);
+
+          this.dialogVisible = false;
+
+          this.$message({
+            message: "Return rent success!",
+            type: "success",
+          });
+        })
+        .catch(() => {
+          this.$message({
+            message: "Metamask invoke failed",
+            type: "error",
+          });
+        });
+
+      this.buttonLoading = false;
     },
   },
   mounted() {
