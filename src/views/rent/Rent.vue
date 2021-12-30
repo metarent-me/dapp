@@ -51,15 +51,17 @@ export default {
         .then((result) => {
           let nfts = [];
           for (let i = 0; i < result.length; i++) {
-            nfts.push({
-              lender: result[i]["lender"],
-              nftToken: result[i]["nftToken"],
-              nftTokenId: result[i]["nftTokenId"],
-              maxRentDuration: result[i]["maxRentDuration"],
-              dailyRentPrice: result[i]["dailyRentPrice"],
-              nftPrice: result[i]["nftPrice"],
-              rentable: result[i]["rentable"],
-            });
+            if (result[i]["rentable"]) {
+              nfts.push({
+                lender: result[i]["lender"],
+                nftToken: result[i]["nftToken"],
+                nftTokenId: result[i]["nftTokenId"],
+                maxRentDuration: result[i]["maxRentDuration"],
+                dailyRentPrice: result[i]["dailyRentPrice"],
+                nftPrice: result[i]["nftPrice"],
+                rentable: result[i]["rentable"],
+              });
+            }
           }
           this.nfts = nfts;
           this.fetchOpenseaAsset();
