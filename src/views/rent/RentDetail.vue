@@ -66,6 +66,7 @@
             {{ nft.maxDuration || "-" }} Days
             <el-input
               v-model="nft.duration"
+              type="number"
               placeholder="Input duration"
             ></el-input>
           </el-form-item>

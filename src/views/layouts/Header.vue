@@ -86,7 +86,7 @@ export default {
     gotoLend() {
       const current = this.$route.name;
       if (current !== "lend") {
-        this.$router.push("lend");
+        this.$router.push("/lend");
       }
     },
     search() {
