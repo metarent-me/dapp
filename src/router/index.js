@@ -4,6 +4,7 @@ import Main from "../views/Main.vue";
 import Rent from "../views/rent/Rent.vue";
 import Lend from "../views/lend/Lend.vue";
 import RentDetail from "../views/rent/RentDetail.vue";
+import ReturnNFT from "../views/rent/ReturnNFT.vue";
 
 Vue.use(VueRouter);
 
@@ -28,6 +29,11 @@ const routes = [
         path: "rentdetail/:token/:tokenId",
         name: "rentdetail",
         component: RentDetail,
+      },
+      {
+        path: "returnnft/:token/:tokenId",
+        name: "returnnft",
+        component: ReturnNFT,
       },
     ],
   },

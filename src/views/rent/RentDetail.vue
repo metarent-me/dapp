@@ -241,7 +241,7 @@ export default {
 <style lang="less">
 @import "../../assets/global.less";
 .rent-detail-wrapper {
-  height: 12000px;
+  height: 1200px;
   display: flex;
 }
 .rent-detail-img-container {
