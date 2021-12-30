@@ -37,7 +37,10 @@
             <el-input v-model="lendInfo.collateral" type="number"></el-input>
           </el-form-item>
           <el-form-item label="Daily Price(ETH)">
-            <el-input v-model="lendInfo.dailyPrice" type="number"></el-input>
+            <el-input
+              v-model="lendInfo.dailyRentPrice"
+              type="number"
+            ></el-input>
           </el-form-item>
           <el-form-item label="Max Duration(Dfays)">
             <el-input v-model="lendInfo.maxDuration" type="number"></el-input>
@@ -75,7 +78,7 @@ export default {
       lendInfo: {
         nft: null,
         collateral: null,
-        dailyPrice: null,
+        dailyRentPrice: null,
         maxDuration: null,
       },
       nfts: null,
@@ -113,15 +116,6 @@ export default {
       }
     },
     approveLend() {
-      let nft = this.lendInfo.nft;
-      let data = {
-        tokenId: nft.token_id,
-        token: nft.asset_contract.address,
-        collateral: null,
-        dailyPrice: null,
-        maxDuration: null,
-      };
-      console.log("NFT", data);
       this.invokeContract();
       this.dialogVisible = false;
     },
@@ -136,23 +130,36 @@ export default {
         METARENT_ABI.abi,
         METARENT_CONTRACT
       );
-      console.log("xxx", nft.asset_contract.address);
+
+      let dailyRentPrice = this.lendInfo.dailyRentPrice;
+      let collateral = this.lendInfo.collateral;
+      let maxDuration = this.lendInfo.maxDuration;
       Metarent.methods
         .setLending(
           nft.asset_contract.address,
-          this.web3.eth.abi.encodeParameter("uint256", nft.token_id),
-          this.web3.eth.abi.encodeParameter("uint256", "3"),
-          this.web3.eth.abi.encodeParameter("uint256", "4"),
-          this.web3.eth.abi.encodeParameter("uint256", "2")
+          nft.token_id,
+          maxDuration,
+          dailyRentPrice,
+          collateral
+          // this.web3.eth.abi.encodeParameter("uint256", nft.token_id),
         )
         .send({
           from: this.$store.state.account,
           to: METARENT_CONTRACT,
-          value: 100000000000000000,
           gasPrice: "2000000000",
         })
         .then((result) => {
-          console.log(result);
+          console.log("setLending result", result);
+          this.$message({
+            message: "Lend NFT success!",
+            type: "success",
+          });
+        })
+        .catch(() => {
+          this.$message({
+            message: "Metamask invoke failed",
+            type: "error",
+          });
         });
     },
     initContract() {
@@ -174,7 +181,6 @@ export default {
           to: METARENT_CONTRACT,
         })
         .then((result) => {
-          console.log("fetchContractLendings", result);
           let nfts = [];
           for (let i = 0; i < result.length; i++) {
             let lend = {
@@ -187,14 +193,9 @@ export default {
               rentable: result[i]["rentable"],
             };
             nfts.push(lend);
-            console.log(lend.nftToken, lend.nftTokenId);
 
             for (let j = 0; j < this.nfts.length; j++) {
               let nft = this.nfts[j];
-              console.log(
-                nft.token_id.toLowerCase(),
-                nft.asset_contract.address.toLowerCase()
-              );
               if (
                 nft.token_id.toLowerCase() == lend.nftTokenId.toLowerCase() &&
                 nft.asset_contract.address.toLowerCase() ==
