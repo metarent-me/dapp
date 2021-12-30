@@ -33,7 +33,9 @@
             >
             <el-form-item label="Fee">2.5%</el-form-item>
             <el-form-item label="">
-              <el-button type="primary">Rent</el-button></el-form-item
+              <el-button type="primary" @click="dialogVisible = true"
+                >Rent</el-button
+              ></el-form-item
             >
           </el-form>
         </div>
@@ -41,6 +43,43 @@
         <div class="lender-info-rent-button"></div>
       </div>
     </div>
+
+    <el-dialog
+      class="rent-dialog"
+      title="Complete Checkout"
+      :visible.sync="dialogVisible"
+      width="40%"
+      center
+    >
+      <div class="rent-dialog-desc">
+        <div class="rent-dialog-collection">
+          {{ ((nft || {}).collection || {}).name || "NFT" }}
+        </div>
+        <div class="rent-dialog-name">
+          {{ (nft || {}).name || "No Name" }}
+        </div>
+      </div>
+
+      <div class="rent-dialog-form">
+        <el-form label-position="right" label-width="200px" :model="nft">
+          <el-form-item label="Collateral(ETH)">
+            <el-input v-model="nft.collateral" type="number"></el-input>
+          </el-form-item>
+          <el-form-item label="Daily Price(ETH)">
+            <el-input v-model="nft.dailyPrice" type="number"></el-input>
+          </el-form-item>
+          <el-form-item label="Max Duration(Dfays)">
+            <el-input v-model="nft.maxDuration" type="number"></el-input>
+          </el-form-item>
+          <el-form-item label="Fee">2.5%</el-form-item>
+        </el-form>
+      </div>
+
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">Cancel</el-button>
+        <el-button type="primary" @click="rent">Approve &#38; Pay</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -67,6 +106,7 @@ export default {
     return {
       nft: {},
       defaultImg: "https://testnets.opensea.io/static/images/placeholder.png",
+      dialogVisible: false,
     };
   },
   methods: {
@@ -104,6 +144,7 @@ export default {
           }
         });
     },
+    rent() {},
   },
   mounted() {
     const token = this.$route.params.token;
@@ -159,9 +200,30 @@ export default {
 .lender-info-rent-button {
   margin-top: 30px;
 }
-
 .el-form-item__label {
   font-size: 10px;
   color: white !important;
+}
+.rent-dialog {
+  .el-dialog__title {
+    font-size: 30px;
+    font-weight: bold;
+  }
+}
+.rent-dialog-desc {
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+
+.rent-dialog-collection {
+  font-size: 20px;
+  font-weight: bold;
+}
+.rent-dialog-name {
+  font-size: 20px;
+  font-weight: bold;
 }
 </style>
