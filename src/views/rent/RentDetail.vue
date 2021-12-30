@@ -10,11 +10,12 @@
         <div class="rent-detail-contract">Contract: {{ contractAddress }}</div>
       </div>
     </div>
+
     <div class="rent-detail-info">
       <div class="lend-dialog-form">
         <div class="lender-info">
           <div class="rent-detail-collection">
-            {{ (nft.collection || {}).name || "..." }}
+            {{ (nft.collection || {}).name || "Loading..." }}
           </div>
           <div class="rent-detail-name">{{ nft.name || "..." }}</div>
 
@@ -48,7 +49,7 @@
       class="rent-dialog"
       title="Complete Checkout"
       :visible.sync="dialogVisible"
-      width="40%"
+      width="60%"
       center
     >
       <div class="rent-dialog-desc">
@@ -110,6 +111,7 @@ import {
   OPENSEA_SINGLE_ASSET,
   METARENT_CONTRACT,
   METARENT_ABI,
+  ERC721_ABI,
 } from "../../contracts/Metarent";
 
 export default {
@@ -154,6 +156,7 @@ export default {
                 this.nft.asset_contract.address.toLowerCase() &&
               result.nftTokenId.toLowerCase() == this.nft.token_id.toLowerCase()
             ) {
+              console.log(result);
               this.nft.lender = result["lender"];
               this.nft.nftToken = result["nftToken"];
               this.nft.nftTokenId = result["nftTokenId"];
@@ -161,9 +164,14 @@ export default {
               this.nft.dailyRentPrice = result["dailyRentPrice"];
               this.nft.nftPrice = result["nftPrice"];
               this.nft.rentable = result["rentable"];
+
+              this.$forceUpdate();
             }
           }
         });
+    },
+    nftApprove() {
+      const NFT = new this.web3.eth.Contract(ERC721_ABI.abi, this.nft.token);
     },
     rent() {},
   },
