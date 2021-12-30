@@ -1,4 +1,4 @@
-const METARENT_CONTRACT = "0xF51B296B45A9cC000987262b5496dc552d70C2dB";
+const METARENT_CONTRACT = "0xa37Ccbd7173e2E8E09f8D9752766687A1AC03974";
 const METARENT_ABI = require("./Metarent.json");
 const OPENSEA_PREFIX =
   // "https://api.opensea.io/api/v1/assets?limit=50&offset=0&owner=";
