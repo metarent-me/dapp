@@ -62,16 +62,36 @@
 
       <div class="rent-dialog-form">
         <el-form label-position="right" label-width="200px" :model="nft">
-          <el-form-item label="Collateral(ETH)">
-            <el-input v-model="nft.collateral" type="number"></el-input>
+          <el-form-item label="Max Duration">
+            {{ nft.maxDuration || "-" }} Days
+            <el-input
+              v-model="nft.duration"
+              placeholder="Input duration"
+            ></el-input>
           </el-form-item>
-          <el-form-item label="Daily Price(ETH)">
-            <el-input v-model="nft.dailyPrice" type="number"></el-input>
+          <el-form-item label="Lender">
+            {{ nft.lender || "-" }}
           </el-form-item>
-          <el-form-item label="Max Duration(Dfays)">
-            <el-input v-model="nft.maxDuration" type="number"></el-input>
+          <el-form-item label="Renter">
+            {{ nft.renter || "-" }}
           </el-form-item>
-          <el-form-item label="Fee">2.5%</el-form-item>
+          <el-form-item label="Collatera">
+            {{ nft.nftPrice || "-" }} ETH
+          </el-form-item>
+          <el-form-item label="Rent Interest">
+            {{ nft.dailyRentPrice || "-" }} ETH
+          </el-form-item>
+          <el-form-item label="Total">
+            {{
+              `${nft.nftPrice || 0} + ${nft.duration || 0} * ${
+                nft.dailyRentPrice || 0
+              } = ${
+                (nft.nftPrice || 0) +
+                (nft.duration || 0) * (nft.dailyRentPrice || 0)
+              }`
+            }}
+            ETH
+          </el-form-item>
         </el-form>
       </div>
 
@@ -189,6 +209,11 @@ export default {
 .rent-detail-collection {
   font-size: 30px;
   font-weight: bold;
+
+  .el-form-item__label {
+    font-size: 10px;
+    color: white !important;
+  }
 }
 .rent-detail-name {
   font-size: 20px;
@@ -200,10 +225,7 @@ export default {
 .lender-info-rent-button {
   margin-top: 30px;
 }
-.el-form-item__label {
-  font-size: 10px;
-  color: white !important;
-}
+
 .rent-dialog {
   .el-dialog__title {
     font-size: 30px;
