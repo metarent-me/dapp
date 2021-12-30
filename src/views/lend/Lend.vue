@@ -51,7 +51,12 @@
 
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="approveLend">Approve</el-button>
+        <el-button
+          type="primary"
+          @click="approveLend"
+          :loading="approveButtonLoading"
+          >Approve</el-button
+        >
       </span>
     </el-dialog>
   </div>
@@ -65,6 +70,7 @@ import {
   METARENT_CONTRACT,
   OPENSEA_PREFIX,
   METARENT_ABI,
+  ERC721_ABI,
 } from "../../contracts/Metarent";
 
 export default {
@@ -75,6 +81,7 @@ export default {
       contract: null,
       web3: null,
       dialogVisible: false,
+      approveButtonLoading: false,
       lendInfo: {
         nft: null,
         collateral: null,
@@ -117,9 +124,50 @@ export default {
     },
     approveLend() {
       this.invokeContract();
-      this.dialogVisible = false;
     },
-    invokeContract() {
+    checkNFTApprove(tokenId) {
+      console.log(tokenId);
+      // contract.functions.allowance(alice, bob).call()
+    },
+    async NFTApprove(token, tokenId) {
+      this.lendInfo.approved = false;
+      const NFT = new this.web3.eth.Contract(ERC721_ABI.abi, token);
+      return await NFT.methods
+        .approve(METARENT_CONTRACT, tokenId)
+        .send({
+          from: this.$store.state.account,
+        })
+        .then((result) => {
+          console.log("result", result);
+          this.lendInfo.approved = true;
+          this.$message({
+            message: "Lend NFT success!",
+            type: "success",
+          });
+          return true;
+        })
+        .catch(() => {
+          this.$message({
+            message: "Metamask invoke failed",
+            type: "error",
+          });
+          return false;
+        });
+    },
+    async invokeContract() {
+      this.approveButtonLoading = true;
+
+      // Check input value
+      let dailyRentPrice = this.lendInfo.dailyRentPrice;
+      let collateral = this.lendInfo.collateral;
+      let maxDuration = this.lendInfo.maxDuration;
+      if (!(dailyRentPrice && collateral && maxDuration)) {
+        alert("Invalid Lending params");
+        this.approveButtonLoading = false;
+        return;
+      }
+
+      // Init web3
       if (window.ethereum) {
         window.web3 = new Web3(window.ethereum);
         window.ethereum.enable();
@@ -131,17 +179,27 @@ export default {
         METARENT_CONTRACT
       );
 
-      let dailyRentPrice = this.lendInfo.dailyRentPrice;
-      let collateral = this.lendInfo.collateral;
-      let maxDuration = this.lendInfo.maxDuration;
-      Metarent.methods
+      // NFT Approve
+      let approveSuccess = await this.NFTApprove(
+        nft.asset_contract.address,
+        nft.token_id
+      );
+      if (!approveSuccess) {
+        this.approveButtonLoading = false;
+        return;
+      }
+
+      // Do setLending
+      await Metarent.methods
         .setLending(
           nft.asset_contract.address,
           nft.token_id,
           maxDuration,
-          dailyRentPrice,
-          collateral
-          // this.web3.eth.abi.encodeParameter("uint256", nft.token_id),
+          Web3.utils.toWei(dailyRentPrice),
+          Web3.utils.toWei(collateral)
+
+          // this.web3.eth.abi.encodeParameter("uint256", dailyRentPrice),
+          // this.web3.eth.abi.encodeParameter("uint256", collateral)
         )
         .send({
           from: this.$store.state.account,
@@ -150,6 +208,9 @@ export default {
         })
         .then((result) => {
           console.log("setLending result", result);
+
+          this.dialogVisible = false;
+
           this.$message({
             message: "Lend NFT success!",
             type: "success",
@@ -161,6 +222,8 @@ export default {
             type: "error",
           });
         });
+
+      this.approveButtonLoading = false;
     },
     initContract() {
       if (window.ethereum) {

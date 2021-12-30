@@ -24,10 +24,10 @@
               nft.lender
             }}</el-form-item>
             <el-form-item label="Collateral(ETH)" size="medium">
-              {{ nft.nftPrice }}</el-form-item
-            >
+              {{ toEther(nft.nftPrice) }}
+            </el-form-item>
             <el-form-item label="Daily Price(ETH)"
-              >{{ nft.dailyRentPrice }}
+              >{{ toEther(nft.dailyRentPrice) }}
             </el-form-item>
             <el-form-item label="Max Duration(Days)">
               {{ nft.maxRentDuration }}</el-form-item
@@ -78,18 +78,18 @@
             {{ nft.renter || "-" }}
           </el-form-item>
           <el-form-item label="Collatera">
-            {{ nft.nftPrice || "-" }} ETH
+            {{ toEther(nft.nftPrice) }} ETH
           </el-form-item>
           <el-form-item label="Rent Interest">
-            {{ nft.dailyRentPrice || "-" }} ETH
+            {{ toEther(nft.dailyRentPrice) }} ETH
           </el-form-item>
           <el-form-item label="Total">
             {{
-              `${nft.nftPrice || 0} + ${nft.duration || 0} * ${
-                nft.dailyRentPrice || 0
+              `${toEther(nft.nftPrice) || 0} + ${nft.duration || 0} * ${
+                toEther(nft.dailyRentPrice) || 0
               } = ${
-                (nft.nftPrice || 0) +
-                (nft.duration || 0) * (nft.dailyRentPrice || 0)
+                (toEther(nft.nftPrice) || 0) +
+                (nft.duration || 0) * (toEther(nft.dailyRentPrice) || 0)
               }`
             }}
             ETH
@@ -99,7 +99,9 @@
 
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="rent">Approve &#38; Pay</el-button>
+        <el-button type="primary" @click="rent" :loading="buttonLoading"
+          >Approve &#38; Pay</el-button
+        >
       </span>
     </el-dialog>
   </div>
@@ -111,7 +113,6 @@ import {
   OPENSEA_SINGLE_ASSET,
   METARENT_CONTRACT,
   METARENT_ABI,
-  ERC721_ABI,
 } from "../../contracts/Metarent";
 
 export default {
@@ -128,11 +129,19 @@ export default {
   data() {
     return {
       nft: {},
+      buttonLoading: false,
       defaultImg: "https://testnets.opensea.io/static/images/placeholder.png",
       dialogVisible: false,
     };
   },
   methods: {
+    toEther(wei) {
+      if (wei) {
+        return wei / 1e18;
+      } else {
+        return null;
+      }
+    },
     getLending() {
       if (window.ethereum) {
         window.web3 = new Web3(window.ethereum);
@@ -156,8 +165,8 @@ export default {
                 this.nft.asset_contract.address.toLowerCase() &&
               result.nftTokenId.toLowerCase() == this.nft.token_id.toLowerCase()
             ) {
-              console.log(result);
               this.nft.lender = result["lender"];
+              this.nft.renter = this.$store.state.account;
               this.nft.nftToken = result["nftToken"];
               this.nft.nftTokenId = result["nftTokenId"];
               this.nft.maxRentDuration = result["maxRentDuration"];
@@ -170,10 +179,50 @@ export default {
           }
         });
     },
-    nftApprove() {
-      const NFT = new this.web3.eth.Contract(ERC721_ABI.abi, this.nft.token);
+    async rent() {
+      // Check input
+      if (!this.nft.duration) {
+        alert("Duration mubst integer");
+        return;
+      }
+      this.buttonLoading = true;
+
+      // Init contract
+      const Metarent = new this.web3.eth.Contract(
+        METARENT_ABI.abi,
+        METARENT_CONTRACT
+      );
+
+      // Call contract method of `rent`
+      let duration = Number(this.nft.duration);
+      let nftPrice = Number(this.nft.nftPrice);
+      let dailyRentPrice = Number(this.nft.dailyRentPrice);
+      let value = Number(nftPrice + dailyRentPrice * duration).toFixed();
+
+      await Metarent.methods
+        .rent(this.nft.nftToken, this.nft.nftTokenId, this.nft.duration)
+        .send({
+          from: this.$store.state.account,
+          value: value,
+        })
+        .then((result) => {
+          console.log("Rent result", result);
+
+          this.dialogVisible = false;
+
+          this.$message({
+            message: "Lend NFT success!",
+            type: "success",
+          });
+        })
+        .catch(() => {
+          this.$message({
+            message: "Metamask invoke failed",
+            type: "error",
+          });
+        });
+      this.buttonLoading = false;
     },
-    rent() {},
   },
   mounted() {
     const token = this.$route.params.token;
