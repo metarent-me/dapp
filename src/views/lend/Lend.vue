@@ -305,26 +305,30 @@ export default {
 .lend-nfts {
   display: flex;
   flex-flow: row wrap;
-  gap: 20px;
+  gap: 5px;
   justify-content: center;
   padding: 0;
   margin: 0;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 .lend-nfts-item {
   width: 200px;
-  height: 300px;
+  height: 250px;
   border: 1px solid @body-background-color;
+  padding-bottom: 60px;
+  background-color: @card-gray-color;
+  border-radius: 10px;
+
   &:hover {
     border: 1px solid tomato;
   }
-
   .el-button--primary {
     display: block;
     width: 100%;
     margin: 0 auto;
     font-weight: bold;
+    margin-top: 7px;
     background-color: @button-background-color;
     border-color: @button-background-color;
     &:hover {
