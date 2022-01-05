@@ -18,6 +18,8 @@
 </template>
 
 <script>
+// import {Metarent} from "../../contracts/Metarent";
+
 export default {
   name: "Categoryfilter",
   data() {
@@ -25,6 +27,7 @@ export default {
       input: "",
     };
   },
+  methods: {},
 };
 </script>
 
@@ -33,7 +36,7 @@ export default {
 
 .category-filter {
   width: 500px;
-  max-width: 500px; //@main-filter-width;
+  max-width: @main-filter-width;
   display: inline-block;
   margin-top: 30px;
 }

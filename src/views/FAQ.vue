@@ -8,11 +8,11 @@
       <h1 id="faq">FAQ</h1>
       <h2 id="1-metarent-">1. What is MetaRent？</h2>
       <p>
-        MetaRent is a decentralized community autonomous NFT platform. Through
-        MetaRent, you can rent out idle NFTs and earn income; through MetaRent
-        you can rent NFTs at low cost instead of buying them. In the future,
-        MetaRent will have more interoperability with Defi, such as mortgage NFT
-        on MetaRent for digital currency loans.
+        MetaRent is a decentralized & Community driven NFT platform. In
+        MetaRent, you can lend out idle NFTs and earn income; In MetaRent you
+        can rent NFTs at low cost instead of buying them. In the future,
+        MetaRent will have more interoperability with DeFi, such as mortgage NFT
+        on MetaRent for cryptocurrency loans.
       </p>
       <h2 id="2-nft-">2. How to rent NFT?</h2>
       <p>
@@ -22,36 +22,36 @@
       </p>
       <p>Essential information required:</p>
       <p>
-        a. Collateral: the renter sets the collateral. During the lease, the
+        a. Collateral: the lender sets this collateral. During the lease, the
         smart contract keeps the collateral. When the renter returns the NFT,
-        the collateral will be returned to the renter through the smart
+        the collateral will be returned to the lender through the smart
         contract;
       </p>
       <p>
-        b. Rent duration: The number of rented days must be less than or equal
-        to the maximum number of rented days. With an early return, it will base
+        b. Rental days: The number of rented days must be less than or equal to
+        the maximum number of rented days. With an early return, it will base
         the number of days rented when renting;
       </p>
       <p>
-        c. Rental interest: the cost of renting NFT every day, the renter sets
-        the rental interest, and the Rental Cost = Rental Interest * Rental
+        c. Rental interest: the cost of renting NFT every day, the lender sets
+        this rental interest, and the Rental Cost = Rental Interest * Rental
         Days.
       </p>
       <h2 id="3-nft-">3. How to lend NFT?</h2>
       <p>
-        On the "Me" page, select the NFT you plan to rent, confirm the
+        On the "Me" page, select the NFT you plan to lend, confirm the
         information and connect to the metamask wallet extension authorization
-        to complete the renting of the NFT.
+        to complete the lending of the NFT.
       </p>
       <p>Essential information required:</p>
       <p>
-        a. Collateral, the renter pays the set deposit. If it is too low, the
+        a. Collateral: The collateral set by the lender. If it is too low, the
         renter may not return the NFT. The recommended amount is greater than
         the current value of the NFT market, for example, set to 150% of the NFT
-        market value;
+        market price;
       </p>
       <p>b. Daily interest;</p>
-      <p>c. The maximum rental days, the maximum days willing to rent.</p>
+      <p>c. The maximum rental days: the maximum days willing to lend.</p>
       <h2 id="4-nft-">4. How to return NFT?</h2>
       <p>
         On the "Me" page, select the NFT waiting to be returned, and connect to
@@ -61,20 +61,20 @@
       <p>
         If you return the NFT in advance, the rental days will also be deducted
         based on the number of days confirmed at the time of rental, and the
-        deposit at the time of rental will be automatically returned to the
-        user’s wallet.
+        collateral at the time of rental will be automatically returned to the
+        renter's wallet.
       </p>
       <h2 id="6-nft-">6. What happens if the NFT is returned overdue?</h2>
       <p>
         If the overdue time is less than or equal to 7 days, the interest
         corresponding to the overdue days (calculated by the hour) will be
         deducted from the deposit, and 200% of the corresponding interest amount
-        will be charged as a late payment fee. The remaining deposit will be
-        automatically returned to the user’s wallet after returning the NFT.
+        will be charged as a late payment fee. The remaining collateral will be
+        automatically returned to the renter's wallet after returning the NFT.
       </p>
       <p>
         If the overdue time is greater than 7 days, the collateral and prepaid
-        interest will be transferred to the renter. The ownership of the NFT
+        interest will be transferred to the lender. The ownership of the NFT
         belongs to the renter and there is no need to return the NFT.
       </p>
       <h2 id="7-nft-">7. Will the rented NFT be lost?</h2>
@@ -83,15 +83,16 @@
         During the rent, the ownership of the NFT will be transferred to the
         renter. If the renter will give up the collateral (usually when the
         price of the NFT rises rapidly or the renter forgets to return it), your
-        NFT may be lost, but you will get the full collateral and rent interest.
+        NFT may be lost, but you will get the full collateral and rental
+        interest.
       </p>
       <p>
-        To avoid the above situation, it is recommended to set a larger deposit,
-        for example, set 150% of the market value of the NFT as the deposit; in
-        addition, you can also achieve this goal by setting a shorter rental
-        period.
+        To avoid the above situation, it is recommended to set a larger
+        collateral, for example, set 150% of the market price of the NFT as the
+        collateral; in addition, you can also achieve this goal by setting a
+        shorter rental period.
       </p>
-      <h2 id="8-">8. When will my deposit be refunded?</h2>
+      <h2 id="8-">8. When will my collateral be refunded?</h2>
       <p>
         When returning the NFT, if it is not overdue, the collateral will be
         returned normally. If it is overdue, the collateral will be refunded
