@@ -8,8 +8,8 @@
     </div>
     <div class="header-right">
       <div :class="pageButtonClass('rent')" @click="gotoRent">Explore</div>
-      <div :class="pageButtonClass('faq')" @click="gotoFAQ">FAQ</div>
       <div :class="pageButtonClass('lend')" @click="gotoLend">Me</div>
+      <div :class="pageButtonClass('faq')" @click="gotoFAQ">FAQ</div>
 
       <!-- <el-input
         placeholder="Collections, item or contract"
