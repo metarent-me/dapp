@@ -20,6 +20,8 @@ const Metarent = new window.web3.eth.Contract(
   METARENT_CONTRACT
 );
 
+const toWei = Web3.utils.toWei;
+
 export {
   METARENT_CONTRACT,
   OPENSEA_PREFIX,
@@ -28,4 +30,5 @@ export {
   METARENT_ABI,
   ERC721_ABI,
   Metarent,
+  toWei,
 };

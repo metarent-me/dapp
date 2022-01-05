@@ -4,8 +4,7 @@
     <div class="footer-links">
       <div>Contracts</div>
       <div>Discord</div>
-      <div>Github</div>
-      <div>Feedback</div>
+      <div>Twitter</div>
     </div>
   </div>
 </template>

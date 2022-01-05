@@ -3,14 +3,13 @@
     <div class="header-left">
       <div class="header-title-slogan" @click="goHome">
         <div class="header-title">MetaRent</div>
-        <div class="header-slogan">
-          RENT the metaverse (Only support Rinkeby testnet now)
-        </div>
+        <div class="header-slogan">RENT the metaverse (Rinkeby)</div>
       </div>
     </div>
     <div class="header-right">
-      <div class="header-page-name" @click="gotoRent">Rent</div>
-      <div class="header-page-name" @click="gotoLend">Lend</div>
+      <div :class="pageButtonClass('rent')" @click="gotoRent">Explore</div>
+      <div :class="pageButtonClass('faq')" @click="gotoFAQ">FAQ</div>
+      <div :class="pageButtonClass('lend')" @click="gotoLend">Me</div>
 
       <!-- <el-input
         placeholder="Collections, item or contract"
@@ -77,6 +76,15 @@ export default {
     },
   },
   methods: {
+    pageButtonClass(page) {
+      let name = this.$route.name;
+      console.log(page, this.$route);
+      if (page === name) {
+        return "header-page-name selected";
+      } else {
+        return "header-page-name";
+      }
+    },
     gotoRent() {
       const current = this.$route.name;
       if (current !== "rent") {
@@ -87,6 +95,12 @@ export default {
       const current = this.$route.name;
       if (current !== "lend") {
         this.$router.push("/lend");
+      }
+    },
+    gotoFAQ() {
+      const current = this.$route.name;
+      if (current !== "faq") {
+        this.$router.push("/faq");
       }
     },
     search() {
@@ -262,9 +276,17 @@ export default {
 
 .header-page-name {
   font-size: 20px;
-  font-weight: 400;
+  font-weight: bold;
   align-self: center;
-  margin-right: 30px;
+  // margin-right: 30px;
+  width: 100%;
+  padding: 5px 10px;
+  user-select: none;
+
+  &.selected {
+    background: @button-gray-color;
+    border-radius: 6px;
+  }
 
   &:hover {
     cursor: pointer;

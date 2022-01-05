@@ -197,7 +197,7 @@ export default {
       let duration = Number(this.nft.duration);
       let nftPrice = Number(this.nft.nftPrice);
       let dailyRentPrice = Number(this.nft.dailyRentPrice);
-      let value = Number(nftPrice + dailyRentPrice * duration).toFixed();
+      let value = Number(nftPrice + dailyRentPrice * (duration + 1)).toFixed();
 
       await Metarent.methods
         .rent(this.nft.nftToken, this.nft.nftTokenId, this.nft.duration)
