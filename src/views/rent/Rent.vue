@@ -40,12 +40,10 @@ export default {
       }
       console.log(this.filter);
       for (let i = 0; i < this.nfts.length; i++) {
-        console.log(this.nfts[i].nftToken, this.filter.address);
         if (this.nfts[i].nftToken == this.filter.address) {
           nfts.push(this.nfts[i]);
         }
       }
-      this.$forceUpdate();
       return nfts;
     },
   },
@@ -133,6 +131,7 @@ export default {
 
             _nfts.push(asset);
 
+            // Update the category filters
             let contract = {};
             contract[asset.collection.name] = asset.asset_contract.address;
             this.$store.commit("addContracts", contract);

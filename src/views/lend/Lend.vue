@@ -88,9 +88,25 @@ export default {
         dailyRentPrice: null,
         maxDuration: null,
       },
-      nfts: null,
+      nfts: [],
       contractLendings: null,
+      filter: null,
     };
+  },
+  computed: {
+    filteredNFTs() {
+      let nfts = [];
+      if (!this.filter) {
+        return this.nfts;
+      }
+      for (let i = 0; i < this.nfts.length; i++) {
+        if (this.nfts[i].nftToken == this.filter.address) {
+          nfts.push(this.nfts[i]);
+        }
+      }
+      this.$forceUpdate();
+      return nfts;
+    },
   },
   methods: {
     lendStatus(nft) {
@@ -111,6 +127,14 @@ export default {
           .then((data) => {
             this.nfts = data["assets"];
             this.fetchContractLendings();
+
+            // Update the category filters
+            for (let i = 0; i < data.assets.length; i++) {
+              let contract = {};
+              let asset = data.assets[i];
+              contract[asset.collection.name] = asset.asset_contract.address;
+              this.$store.commit("addContracts", contract);
+            }
           });
       }
     },
@@ -281,6 +305,13 @@ export default {
       if (newVal) {
         this.fetchNFTs(newVal);
       }
+    },
+    "$store.state.filter.name": {
+      deep: true,
+      handler() {
+        console.log("filter", this.$store.state.filter.address);
+        this.filter = this.$store.state.filter;
+      },
     },
   },
   mounted() {
