@@ -111,7 +111,11 @@ export default {
             asset.rentable = this.nfts[i].rentable;
             asset.isReturned = this.nfts[i].isReturned;
 
-            _nfts.push(data.assets[i]);
+            _nfts.push(asset);
+
+            let contract = {};
+            contract[asset.asset_contract.name] = asset.asset_contract.address;
+            this.$store.commit("addContracts", contract);
           }
           this.nfts = _nfts;
         });
@@ -181,8 +185,10 @@ export default {
   width: 200px;
   height: 250px;
   border: 1px solid @body-background-color;
-  padding: 5px;
   padding-bottom: 60px;
+  background-color: @card-gray-color;
+  border-radius: 10px;
+
   &:hover {
     border: 1px solid tomato;
   }

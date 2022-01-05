@@ -47,6 +47,7 @@ export default {
 <style lang="less">
 @import "../assets/global.less";
 .nft-wrapper {
+  box-shadow: 0 12px 20px -8px @body-background-color;
 }
 .nft-img-container {
   height: @nft-img-height;
@@ -60,8 +61,10 @@ export default {
 .nft-collection {
   font-weight: bold;
   font-size: 18px;
+  padding: 0 10px;
 }
 .nft-name {
   font-size: 14px;
+  padding: 0 10px;
 }
 </style>

@@ -8,18 +8,18 @@
       placeholder="Search"
     ></el-input>
     <div class="contract-filter-results">
-      <ul class="contract-filter-items" v-for="c in contracts" :key="c.address">
-        <li>The Sandbox</li>
-        <li>Bored Ape yancht Club</li>
-        <li>CryptoPunks</li>
+      <ul
+        class="contract-filter-items"
+        v-for="(value, name) in contracts"
+        :key="value"
+      >
+        <li>{{ name }}</li>
       </ul>
     </div>
   </div>
 </template>
 
 <script>
-// import {Metarent} from "../../contracts/Metarent";
-
 export default {
   name: "ContractFilter",
   data() {
@@ -30,10 +30,12 @@ export default {
   },
   methods: {},
   watch: {
-    "$store.state.contracts": function (newVal) {
-      if (newVal) {
-        this.contracts = newVal;
-      }
+    "$store.state.contracts.count": {
+      deep: true,
+      handler(newValue) {
+        console.log("xx", newValue);
+        this.contracts = this.$store.state.contracts.data;
+      },
     },
   },
 };
@@ -82,5 +84,7 @@ export default {
 .contract-filter-items {
   list-style-type: none;
   padding: 2px;
+  cursor: pointer;
+  user-select: none;
 }
 </style>
