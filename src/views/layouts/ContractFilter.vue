@@ -1,14 +1,14 @@
 <template>
-  <div class="category-filter">
-    <div class="category-filter-title">Filters</div>
+  <div class="contract-filter">
+    <div class="contract-filter-title">Filters</div>
     <el-input
-      class="category-filter-input"
-      name="category-filter-input"
+      class="contract-filter-input"
+      name="contract-filter-input"
       v-model="input"
       placeholder="Search"
     ></el-input>
-    <div class="category-filter-results">
-      <ul class="category-filter-items">
+    <div class="contract-filter-results">
+      <ul class="contract-filter-items" v-for="c in contracts" :key="c.address">
         <li>The Sandbox</li>
         <li>Bored Ape yancht Club</li>
         <li>CryptoPunks</li>
@@ -21,31 +21,39 @@
 // import {Metarent} from "../../contracts/Metarent";
 
 export default {
-  name: "Categoryfilter",
+  name: "ContractFilter",
   data() {
     return {
       input: "",
+      contracts: [],
     };
   },
   methods: {},
+  watch: {
+    "$store.state.contracts": function (newVal) {
+      if (newVal) {
+        this.contracts = newVal;
+      }
+    },
+  },
 };
 </script>
 
 <style lang="less">
 @import "../../assets/global.less";
 
-.category-filter {
+.contract-filter {
   width: 500px;
   max-width: @main-filter-width;
   display: inline-block;
   margin-top: 30px;
 }
 
-.category-filter-title {
+.contract-filter-title {
   font-size: 18px;
 }
 
-.category-filter-input {
+.contract-filter-input {
   margin-top: 10px;
   width: 100px;
 
@@ -71,7 +79,7 @@ export default {
   }
 }
 
-.category-filter-items {
+.contract-filter-items {
   list-style-type: none;
   padding: 2px;
 }

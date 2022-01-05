@@ -7,6 +7,7 @@ export default new Vuex.Store({
   state: {
     account: null,
     NFTDetail: null,
+    contracts: null,
   },
   mutations: {
     setAccount(state, payload) {

@@ -1,6 +1,6 @@
 <template>
   <div class="rent-wrapper">
-    <Categoryfilter />
+    <ContractFilter />
     <div class="rent-nfts">
       <div
         class="rent-nfts-item"
@@ -9,22 +9,22 @@
         @click="gotoDetailOrReturn(nft)"
       >
         <NFT :nft="nft" />
-        <template v-if="nft.isReturned === false">
+        <div v-show="nft.isReturned == false">
           <el-button type="primary">Return</el-button>
-        </template>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import Categoryfilter from "../layouts/Categoryfilter.vue";
+import ContractFilter from "../layouts/ContractFilter.vue";
 import NFT from "../../components/NFT.vue";
 import { OPENSEA_MULTI_ASSET, Metarent } from "../../contracts/Metarent";
 
 export default {
   name: "Rent",
-  components: { Categoryfilter, NFT },
+  components: { ContractFilter, NFT },
   data() {
     return {
       nfts: [],
@@ -159,7 +159,6 @@ export default {
 
 <style lang="less">
 @import "../../assets/global.less";
-
 .rent-wrapper {
   background-color: @body-background-color;
   min-height: 800px;
@@ -168,30 +167,31 @@ export default {
   display: flex;
   flex-flow: row nowrap;
 }
-
 .rent-nfts {
   display: flex;
   flex-flow: row wrap;
-  gap: 20px;
-  justify-content: center;
+  gap: 5px;
+  justify-content: start;
   padding: 0;
   margin: 0;
-  margin-top: 20px;
+  margin-top: 10px;
+  align-content: flex-start;
 }
-
 .rent-nfts-item {
   width: 200px;
   height: 250px;
   border: 1px solid @body-background-color;
+  padding: 5px;
+  padding-bottom: 60px;
   &:hover {
     border: 1px solid tomato;
   }
-
   .el-button--primary {
     display: block;
     width: 100%;
     margin: 0 auto;
     font-weight: bold;
+    margin-top: 7px;
     background-color: @button-background-color;
     border-color: @button-background-color;
     &:hover {

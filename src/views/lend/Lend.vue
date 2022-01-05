@@ -1,6 +1,6 @@
 <template>
   <div class="lend-wrapper">
-    <Categoryfilter />
+    <ContractFilter />
     <div class="lend-nfts">
       <template v-if="nfts">
         <div class="lend-nfts-item" v-for="nft of nfts" :key="nft.id">
@@ -64,7 +64,7 @@
 
 <script>
 import Web3 from "web3";
-import Categoryfilter from "../layouts/Categoryfilter.vue";
+import ContractFilter from "../layouts/ContractFilter.vue";
 import NFT from "../../components/NFT.vue";
 import {
   METARENT_CONTRACT,
@@ -75,7 +75,7 @@ import {
 
 export default {
   name: "Lend",
-  components: { Categoryfilter, NFT },
+  components: { ContractFilter, NFT },
   data() {
     return {
       contract: null,

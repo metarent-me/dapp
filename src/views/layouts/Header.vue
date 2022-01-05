@@ -78,7 +78,6 @@ export default {
   methods: {
     pageButtonClass(page) {
       let name = this.$route.name;
-      console.log(page, this.$route);
       if (page === name) {
         return "header-page-name selected";
       } else {
@@ -86,26 +85,27 @@ export default {
       }
     },
     gotoRent() {
-      const current = this.$route.name;
-      if (current !== "rent") {
+      if (this.$route.name !== "rent") {
         this.$router.push("/rent");
       }
     },
     gotoLend() {
-      const current = this.$route.name;
-      if (current !== "lend") {
+      if (this.$route.name !== "lend") {
         this.$router.push("/lend");
       }
     },
     gotoFAQ() {
-      const current = this.$route.name;
-      if (current !== "faq") {
+      if (this.$route.name !== "faq") {
         this.$router.push("/faq");
       }
     },
-    search() {
-      console.log("search");
+
+    goHome() {
+      if (this.$route.name !== "rent") {
+        this.$router.push("/");
+      }
     },
+    search() {},
     connectWallet() {
       if (window.ethereum) {
         window.web3 = new Web3(window.ethereum);
@@ -207,9 +207,6 @@ export default {
       // this.Web3Interval = setInterval(() => this.checkWeb3(), 1000);
       // this.AccountInterval = setInterval(() => this.checkAccounts(), 1000);
       // this.NetworkInterval = setInterval(() => this.checkNetWork(), 1000);
-    },
-    goHome() {
-      this.$router.push("/");
     },
   },
   mounted() {

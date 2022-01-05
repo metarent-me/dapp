@@ -62,7 +62,7 @@ export default {
           console.log("result", result);
           this.approved = true;
           this.$message({
-            message: "Lend NFT success!",
+            message: "NFT approve success!",
             type: "success",
           });
           return true;
