@@ -11,6 +11,7 @@ export default new Vuex.Store({
       count: 0,
       data: {},
     },
+    filter: null,
   },
   mutations: {
     setAccount(state, payload) {
@@ -26,6 +27,9 @@ export default new Vuex.Store({
           state.contracts["count"] += 1;
         }
       }
+    },
+    setFilter(state, payload) {
+      state.filter = payload;
     },
   },
   actions: {},

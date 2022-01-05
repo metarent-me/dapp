@@ -4,7 +4,7 @@
     <div class="rent-nfts">
       <div
         class="rent-nfts-item"
-        v-for="nft of nfts"
+        v-for="nft of filteredNFTs"
         :key="nft.id"
         @click="gotoDetailOrReturn(nft)"
       >
@@ -29,7 +29,25 @@ export default {
     return {
       nfts: [],
       fetched: false,
+      filter: null,
     };
+  },
+  computed: {
+    filteredNFTs() {
+      let nfts = [];
+      if (!this.filter) {
+        return this.nfts;
+      }
+      console.log(this.filter);
+      for (let i = 0; i < this.nfts.length; i++) {
+        console.log(this.nfts[i].nftToken, this.filter.address);
+        if (this.nfts[i].nftToken == this.filter.address) {
+          nfts.push(this.nfts[i]);
+        }
+      }
+      this.$forceUpdate();
+      return nfts;
+    },
   },
   methods: {
     async getRenting() {
@@ -44,11 +62,12 @@ export default {
         })
         .then((result) => {
           for (let i = 0; i < result.length; i++) {
+            let nftToken = result[i]["nftToken"].toLowerCase();
             if (!result[i]["isReturned"]) {
               this.nfts.push({
                 lender: result[i]["lender"],
                 renter: result[i]["renter"],
-                nftToken: result[i]["nftToken"],
+                nftToken: nftToken,
                 nftTokenId: result[i]["nftTokenId"],
                 dailyRentPrice: result[i]["dailyRentPrice"],
                 rentDuration: result[i]["rentDuration"],
@@ -72,10 +91,11 @@ export default {
         })
         .then((result) => {
           for (let i = 0; i < result.length; i++) {
+            let nftToken = result[i]["nftToken"].toLowerCase();
             if (result[i]["rentable"]) {
               this.nfts.push({
                 lender: result[i]["lender"],
-                nftToken: result[i]["nftToken"],
+                nftToken: nftToken,
                 nftTokenId: result[i]["nftTokenId"],
                 maxRentDuration: result[i]["maxRentDuration"],
                 dailyRentPrice: result[i]["dailyRentPrice"],
@@ -114,7 +134,7 @@ export default {
             _nfts.push(asset);
 
             let contract = {};
-            contract[asset.asset_contract.name] = asset.asset_contract.address;
+            contract[asset.collection.name] = asset.asset_contract.address;
             this.$store.commit("addContracts", contract);
           }
           this.nfts = _nfts;
@@ -137,6 +157,7 @@ export default {
       await this.getLending();
       await this.getRenting();
       this.fetchOpenseaAsset();
+      this.$forceUpdate();
     },
   },
 
@@ -149,8 +170,19 @@ export default {
         }
       }
     },
+    "$store.state.filter.name": {
+      deep: true,
+      handler() {
+        console.log("filter", this.$store.state.filter.address);
+        this.filter = this.$store.state.filter;
+      },
+    },
   },
   mounted() {
+    // Clear the filter
+    // this.$store.commit("setFilter", null);
+
+    // Fetch NFTs
     if (!this.fetched) {
       if (this.$store.state.account) {
         this.fetchAllNFTs();

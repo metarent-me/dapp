@@ -1,20 +1,23 @@
 <template>
   <div class="contract-filter">
     <div class="contract-filter-title">Filters</div>
-    <el-input
-      class="contract-filter-input"
-      name="contract-filter-input"
-      v-model="input"
-      placeholder="Search"
-    ></el-input>
     <div class="contract-filter-results">
-      <ul
-        class="contract-filter-items"
-        v-for="(value, name) in contracts"
-        :key="value"
+      <el-select
+        v-model="selected"
+        filterable
+        clearable
+        placeholder="Filters"
+        no-data-text="Data loading ..."
+        no-match-text="None matched"
       >
-        <li>{{ name }}</li>
-      </ul>
+        <el-option
+          v-for="filter in filters"
+          :key="filter.value"
+          :label="filter.label"
+          :value="filter"
+        >
+        </el-option>
+      </el-select>
     </div>
   </div>
 </template>
@@ -25,17 +28,34 @@ export default {
   data() {
     return {
       input: "",
-      contracts: [],
+      filters: [],
+      selected: null,
     };
   },
-  methods: {},
+  methods: {
+    changeFilter(filter) {
+      this.$store.commit("setFilter", {
+        name: filter.label,
+        address: filter.value,
+      });
+    },
+  },
   watch: {
     "$store.state.contracts.count": {
       deep: true,
-      handler(newValue) {
-        console.log("xx", newValue);
-        this.contracts = this.$store.state.contracts.data;
+      handler() {
+        let contracts = this.$store.state.contracts.data;
+        let filters = [];
+        if (contracts) {
+          for (const [name, address] of Object.entries(contracts)) {
+            filters.push({ value: address, label: name });
+          }
+          this.filters = filters;
+        }
       },
+    },
+    selected: function (newVal) {
+      this.changeFilter(newVal);
     },
   },
 };
@@ -53,8 +73,11 @@ export default {
 
 .contract-filter-title {
   font-size: 18px;
+  font-weight: bold;
 }
-
+.contract-filter-results {
+  margin-top: 5px;
+}
 .contract-filter-input {
   margin-top: 10px;
   width: 100px;
