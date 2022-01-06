@@ -1,10 +1,10 @@
 <template>
   <div class="footer-wrapper">
-    <div class="footer-rights">© 2021 - 2022 Metarent, Inc</div>
+    <div class="footer-rights">©2022 Metarent DAO</div>
     <div class="footer-links">
       <div>
         <el-link
-          href="https://github.com/Extend-Labs/metarent-frontend"
+          href="https://github.com/Extend-Labs/metarent-contracts"
           target="_blank"
           >Contracts</el-link
         >
