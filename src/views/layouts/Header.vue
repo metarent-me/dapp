@@ -7,8 +7,8 @@
       </div>
     </div>
     <div class="header-right">
-      <div :class="pageButtonClass('rent')" @click="gotoRent">Explore</div>
-      <div :class="pageButtonClass('lend')" @click="gotoLend">Me</div>
+      <div :class="pageButtonClass('explorer')" @click="gotoRent">Explore</div>
+      <div :class="pageButtonClass('me')" @click="gotoLend">Me</div>
       <div :class="pageButtonClass('dao')">
         <a
           href="https://www.notion.so/invite/f415165ee2456e82014edd463ba3e40ed0542195"
@@ -194,9 +194,6 @@ export default {
       this.web3 = web3;
       this.checkAccounts();
       this.checkNetWork();
-      // this.Web3Interval = setInterval(() => this.checkWeb3(), 1000);
-      // this.AccountInterval = setInterval(() => this.checkAccounts(), 1000);
-      // this.NetworkInterval = setInterval(() => this.checkNetWork(), 1000);
     },
   },
   mounted() {
