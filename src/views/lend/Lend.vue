@@ -45,7 +45,7 @@
           <el-form-item label="Max Duration(Dfays)">
             <el-input v-model="lendInfo.maxDuration" type="number"></el-input>
           </el-form-item>
-          <el-form-item label="Fee">2.5%</el-form-item>
+          <el-form-item label="Fee">2.5% from earnings</el-form-item>
         </el-form>
       </div>
 

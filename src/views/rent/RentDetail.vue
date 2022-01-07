@@ -7,13 +7,15 @@
           :src="nft.image_url || defaultImg"
           alt="NFT"
         />
-        <div class="rent-detail-contract">Contract: {{ contractAddress }}</div>
+        <div class="rent-detail-contract">
+          <a>Contract: {{ contractAddress }}</a>
+        </div>
       </div>
     </div>
 
     <div class="rent-detail-info">
-      <div class="lend-dialog-form">
-        <div class="lender-info">
+      <div class="rent-dialog-form">
+        <div class="rent-info">
           <div class="rent-detail-collection">
             {{ (nft.collection || {}).name || "Loading..." }}
           </div>
@@ -32,7 +34,6 @@
             <el-form-item label="Max Duration(Days)">
               {{ nft.maxRentDuration }}</el-form-item
             >
-            <el-form-item label="Fee">2.5%</el-form-item>
             <el-form-item label="">
               <el-button type="primary" @click="dialogVisible = true"
                 >Rent</el-button
@@ -276,9 +277,12 @@ export default {
 .rent-detail-name {
   font-size: 20px;
 }
-.lender-info {
+.rent-info {
   margin-top: 20px;
   font-size: 20px;
+  .el-form-item__label {
+    color: white;
+  }
 }
 .lender-info-rent-button {
   margin-top: 30px;
