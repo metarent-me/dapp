@@ -9,17 +9,14 @@
     <div class="header-right">
       <div :class="pageButtonClass('rent')" @click="gotoRent">Explore</div>
       <div :class="pageButtonClass('lend')" @click="gotoLend">Me</div>
+      <div :class="pageButtonClass('dao')">
+        <a
+          href="https://www.notion.so/invite/f415165ee2456e82014edd463ba3e40ed0542195"
+          target="_blank"
+          >DAO</a
+        >
+      </div>
       <div :class="pageButtonClass('faq')" @click="gotoFAQ">FAQ</div>
-
-      <!-- <el-input
-        placeholder="Collections, item or contract"
-        v-model="searchText"
-        class="header-search"
-      >
-        <i class="el-icon-search el-input__icon" slot="suffix" @click="search">
-        </i>
-      </el-input> -->
-
       <div class="header-connect">
         <el-button type="primary" @click="connectWallet" round
           >{{ currentAccount(account) || "Connect wallet" }}<br />
@@ -281,6 +278,11 @@ export default {
 
   &:hover {
     cursor: pointer;
+  }
+
+  a {
+    color: white;
+    text-decoration: none;
   }
 }
 .header-connect {

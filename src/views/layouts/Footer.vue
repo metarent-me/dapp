@@ -4,13 +4,6 @@
     <div class="footer-links">
       <div>
         <el-link
-          href="https://www.notion.so/invite/f415165ee2456e82014edd463ba3e40ed0542195"
-          target="_blank"
-          >Join DAO</el-link
-        >
-      </div>
-      <div>
-        <el-link
           href="https://github.com/Extend-Labs/metarent-contracts"
           target="_blank"
           >Contracts</el-link
