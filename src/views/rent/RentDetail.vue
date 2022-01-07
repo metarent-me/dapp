@@ -8,7 +8,11 @@
           alt="NFT"
         />
         <div class="rent-detail-contract">
-          <a>Contract: {{ contractAddress }}</a>
+          <a
+            :href="chainPrefix + (nft.asset_contract || {}).address"
+            target="_blank"
+            >Contract: {{ contractAddress }}</a
+          >
         </div>
       </div>
     </div>
@@ -132,6 +136,7 @@ export default {
       nft: {},
       buttonLoading: false,
       defaultImg: "https://testnets.opensea.io/static/images/placeholder.png",
+      chainPrefix: "https://rinkeby.etherscan.io/address/",
       dialogVisible: false,
     };
   },
@@ -260,6 +265,9 @@ export default {
 }
 .rent-detail-contract {
   margin-top: 10px;
+  a {
+    color: white;
+  }
 }
 .rent-detail-info {
   margin-left: 50px;
