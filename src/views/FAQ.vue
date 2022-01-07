@@ -118,7 +118,6 @@
     margin-bottom: 40px;
   }
   h2 {
-    padding-left: 20px;
   }
 }
 </style>
