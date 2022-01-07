@@ -19,16 +19,16 @@ const routes = [
     path: "/",
     name: "Main",
     component: Main,
-    redirect: "rent",
+    redirect: "explorer",
     children: [
       {
-        path: "rent",
-        name: "rent",
+        path: "explorer",
+        name: "explorer",
         component: Rent,
       },
       {
-        path: "lend",
-        name: "lend",
+        path: "me",
+        name: "me",
         component: Lend,
       },
       {

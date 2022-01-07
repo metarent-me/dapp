@@ -67,14 +67,7 @@ export default {
       },
     };
   },
-  computed: {
-    rentOrLend: {
-      get() {
-        return this.$route.name === "rent" ? "Lend" : "Rent";
-      },
-      set() {},
-    },
-  },
+  computed: {},
   methods: {
     pageButtonClass(page) {
       let name = this.$route.name;
@@ -85,13 +78,13 @@ export default {
       }
     },
     gotoRent() {
-      if (this.$route.name !== "rent") {
-        this.$router.push("/rent");
+      if (this.$route.name !== "explorer") {
+        this.$router.push("/explorer");
       }
     },
     gotoLend() {
-      if (this.$route.name !== "lend") {
-        this.$router.push("/lend");
+      if (this.$route.name !== "me") {
+        this.$router.push("/me");
       }
     },
     gotoFAQ() {
@@ -101,7 +94,7 @@ export default {
     },
 
     goHome() {
-      if (this.$route.name !== "rent") {
+      if (this.$route.name !== "explorer") {
         this.$router.push("/");
       }
     },
@@ -243,6 +236,7 @@ export default {
   align-self: center;
   align-items: center;
   gap: 20px;
+  user-select: none;
 }
 
 .header-title-slogan {
