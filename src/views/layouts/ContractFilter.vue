@@ -1,12 +1,12 @@
 <template>
   <div class="contract-filter">
-    <div class="contract-filter-title">All</div>
+    <div class="contract-filter-title">Filters</div>
     <div class="contract-filter-results">
       <el-select
         v-model="selected"
         filterable
         clearable
-        placeholder="Filters"
+        placeholder="All"
         no-data-text="Data loading ..."
         no-match-text="None matched"
       >
