@@ -1,6 +1,6 @@
 <template>
   <div class="contract-filter">
-    <div class="contract-filter-title">Filters</div>
+    <div class="contract-filter-title">All</div>
     <div class="contract-filter-results">
       <el-select
         v-model="selected"

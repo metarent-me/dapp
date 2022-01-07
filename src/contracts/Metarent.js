@@ -15,6 +15,7 @@ if (window.ethereum) {
   window.web3 = new Web3(window.ethereum);
   window.ethereum.enable();
 } else {
+  alert("Please install Metamask extension to continue");
   window.web3 = new Web3();
 }
 const Metarent = new window.web3.eth.Contract(
