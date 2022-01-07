@@ -72,6 +72,7 @@
             {{ nft.maxDuration || "-" }} Days
             <el-input
               v-model="nft.duration"
+              @mousewheel.native.prevent
               type="number"
               placeholder="Input duration"
             ></el-input>
@@ -292,10 +293,6 @@ export default {
     color: white;
   }
 }
-.lender-info-rent-button {
-  margin-top: 30px;
-}
-
 .rent-dialog {
   .el-dialog__title {
     font-size: 30px;
@@ -309,7 +306,9 @@ export default {
   flex-wrap: nowrap;
   align-items: center;
 }
-
+.lender-info-rent-button {
+  margin-top: 30px;
+}
 .rent-dialog-collection {
   font-size: 20px;
   font-weight: bold;

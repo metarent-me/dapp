@@ -9,9 +9,7 @@
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  // text-align: center;
 }
-
 #nav {
   padding: 30px;
 
@@ -23,5 +21,13 @@
       color: #42b983;
     }
   }
+}
+// Disable element ui input number arrow
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
 }
 </style>
