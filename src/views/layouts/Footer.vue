@@ -3,9 +3,7 @@
     <div class="footer-rights">©2022 Metarent DAO</div>
     <div class="footer-links">
       <div>
-        <el-link
-          href="https://github.com/Extend-Labs/metarent-contracts"
-          target="_blank"
+        <el-link href="https://github.com/metarent-me/contracts" target="_blank"
           >Contracts</el-link
         >
       </div>
